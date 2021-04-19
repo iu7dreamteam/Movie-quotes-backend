@@ -44,3 +44,30 @@ class TestSubtitleParser(TestCase):
         # Assert
         compare(actual_subtitles, expected_subtitles)
 
+    def test_parse__lang_ru(self):
+        expected_subtitles = [
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=32, microsecond=560000),
+                end_time=time(hour=0, minute=0, second=35, microsecond=470000),
+                quote='Мир изменился.'
+            ),
+
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=35, microsecond=640000),
+                end_time=time(hour=0, minute=0, second=38, microsecond=550000),
+                quote='Я чувствую это в воде.'
+            ),
+
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=39, microsecond=280000),
+                end_time=time(hour=0, minute=0, second=42, microsecond=80000),
+                quote='Я чувствую это в земле.'
+            ),
+        ]
+
+        # Act
+        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/domain/utility/res/The_Lord_of_the_Rings(2001).ru.srt')
+
+        # Assert
+        compare(actual_subtitles, expected_subtitles)
+
