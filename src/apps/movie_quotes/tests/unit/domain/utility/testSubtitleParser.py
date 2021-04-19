@@ -16,7 +16,7 @@ class TestSubtitleParser(TestCase):
     def setUp(self):
         pass
 
-    def test_parse(self):
+    def test_parse__lang_en(self):
         # Arrange
         expected_subtitles = [
             Subtitle(
