@@ -1,0 +1,19 @@
+﻿Includes: Elvish, Rohirric, Sindarin, Quenya, Khuzdûl and Black Speech
+(Font colored according to each language)
+Acknowledge to: elvish.org
+From BlueRay. Took all the Hearing Impaired. 
+2018/12/21
+
+1
+00:00:31,250 --> 00:00:34,549
+<font color=#008000><i>I amar prestar aen.</i></font>
+
+2
+00:00:36,650 --> 00:00:37,749
+<font color=#008000><i>Han mathon ne nen.</i></font>
+
+3
+00:00:39,950 --> 00:00:41,549
+<font color=#008000><i>Han mathon ne chae.</i></font>
+
+

@@ -71,3 +71,31 @@ class TestSubtitleParser(TestCase):
         # Assert
         compare(actual_subtitles, expected_subtitles)
 
+    
+    def test_parse__lang_bengal__cleanning_formatting(self):
+        expected_subtitles = [
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=31, microsecond=250000),
+                end_time=time(hour=0, minute=0, second=34, microsecond=549000),
+                quote='I amar prestar aen.'
+            ),
+
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=36, microsecond=650000),
+                end_time=time(hour=0, minute=0, second=37, microsecond=749000),
+                quote='Han mathon ne nen.'
+            ),
+
+            Subtitle(
+                start_time=time(hour=0, minute=0, second=39, microsecond=950000),
+                end_time=time(hour=0, minute=0, second=41, microsecond=549000),
+                quote='Han mathon ne chae.'
+            ),
+        ]
+
+        # Act
+        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/domain/utility/res/The_Lord_of_the_Rings(2001).bengal.colored.srt')
+
+        # Assert
+        compare(actual_subtitles, expected_subtitles)
+
