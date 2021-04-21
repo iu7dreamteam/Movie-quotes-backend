@@ -1,5 +1,13 @@
+# Mac OS X
 .DS_store
 
+# python directories
 __pycache__/
-.venv/
 
+# environments
+.venv/
+.env
+
+# IDEs
+.vscode/
+.idea/
