@@ -1,22 +1,27 @@
 from django.test import TestCase
 from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo
 from apps.movie_quotes.infrastructure.django.models.SubtitleORM import SubtitleORM
+from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
 from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 from apps.movie_quotes.domain.entities.Movie import Movie
 from datetime import datetime
 
-class TestSubtitle(TestCase):
+class TestSubtitleRepo(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.movie_orm =  MovieORM.objects.create(name = "", year = 2000, url = "")
         cls.subtitle_orm3 = SubtitleORM.objects.create(quote = "Monday is a bad day!!!",
                                                        start_time = datetime.now(),
-                                                       end_time = datetime.now())
+                                                       end_time = datetime.now(),
+                                                       movie = cls.movie_orm)
         cls.subtitle_orm1 = SubtitleORM.objects.create(quote = "Hello, Vasya!",
                                                        start_time = datetime.now(),
-                                                       end_time = datetime.now())
+                                                       end_time = datetime.now(),
+                                                       movie = cls.movie_orm)
         cls.subtitle_orm2 = SubtitleORM.objects.create(quote = "Hello, Petya!",
                                                        start_time = datetime.now(),
-                                                       end_time = datetime.now())
+                                                       end_time = datetime.now(),
+                                                       movie = cls.movie_orm)
     def setUp(self):
         pass
 
@@ -64,7 +69,8 @@ class TestSubtitle(TestCase):
         quote = "I am a new one"
         subtitle_orm = SubtitleORM.objects.create(quote = quote,
                                                   start_time = datetime.now(),
-                                                  end_time = datetime.now())
+                                                  end_time = datetime.now(),
+                                                  movie = self.movie_orm)
         id = subtitle_orm.id
         expected_subtitle = {'id': id, 'quote': quote}
         subtitle_repo = SubtitleRepo()
@@ -86,7 +92,7 @@ class TestSubtitle(TestCase):
 
         movie = Movie(name = movie_name, year = year, url = url)
         subtitle = Subtitle(quote = quote, start_time = datetime.now(),
-                            end_time = datetime.now(), movies = [movie])
+                            end_time = datetime.now(), movie = movie)
         expected_movie = {'name': movie_name, 'year': year, 'url': url}
         subtitle_repo = SubtitleRepo()
 
@@ -96,7 +102,7 @@ class TestSubtitle(TestCase):
 
         # Assert
         self.assertIsNotNone(subtitle_orm)
-        movie_orm = subtitle_orm.movies.all().first()
+        movie_orm = subtitle_orm.movie
         self.assertIsNotNone(movie_orm)
         actual_movie = {'name': movie_orm.name, 'year': movie_orm.year, 'url': movie_orm.url}
         self.assertDictEqual(expected_movie, actual_movie)

@@ -5,26 +5,22 @@ from typing import List
 
 class SubtitleRepo:
     def transform(self, subtitle_orm: SubtitleORM) -> Subtitle:
-        movies = []
-        for movie_orm in subtitle_orm.movies.all():
-            movies.append(MovieRepo().transform(movie_orm))
         return Subtitle(id = subtitle_orm.id, quote = subtitle_orm.quote,
                         start_time = subtitle_orm.start_time,
                         end_time = subtitle_orm.end_time,
-                        movies = movies)
+                        movie = MovieRepo().transform(subtitle_orm.movie))
 
     def create(self, subtitle):
+        movie_orm = MovieRepo().find_first(subtitle.movie)
+
+        if movie_orm is None:
+            movie_orm = MovieRepo().create(subtitle.movie)
+
         subtitle_orm = SubtitleORM.objects.create(quote = subtitle.quote,
                                                   start_time = subtitle.start_time,
-                                                  end_time = subtitle.end_time)
-
-        for movie in subtitle.movies:
-            movie_orm = MovieRepo().find_first(movie)
-
-            if movie_orm is None:
-                movie_orm = MovieRepo().create(movie)
-
-            subtitle_orm.movies.add(movie_orm)
+                                                  end_time = subtitle.end_time,
+                                                  movie = movie_orm)
+        return subtitle_orm
 
     def delete(self, id):
         subtitle_orm = SubtitleORM.objects.get(id = id)

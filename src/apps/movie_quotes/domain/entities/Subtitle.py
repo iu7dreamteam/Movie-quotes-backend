@@ -1,12 +1,12 @@
 from apps.movie_quotes.domain.entities.Movie import Movie
 
 class Subtitle(object):
-    def __init__(self, id = None, quote = '', start_time = None, end_time = None, movies = []):
+    def __init__(self, id = None, quote = '', start_time = None, end_time = None, movie = None):
         self._id = id
         self._quote = quote
         self._start_time = start_time
         self._end_time = end_time
-        self._movies = movies
+        self._movie = movie
 
     @property
     def id(self):
@@ -25,8 +25,8 @@ class Subtitle(object):
         return self._end_time
 
     @property
-    def movies(self):
-        return self._movies
+    def movie(self):
+        return self._movie
 
     @id.setter
     def id(self, id):
@@ -44,9 +44,6 @@ class Subtitle(object):
     def end_time(self, end_time):
         self._end_time = end_time
 
-    @movies.setter
-    def movies(self, movies):
-        self._movies = movies
-
-    def add_movie(self, movie):
-        self._movies.append(movie)
+    @movie.setter
+    def movie(self, movie):
+        self._movie = movie
