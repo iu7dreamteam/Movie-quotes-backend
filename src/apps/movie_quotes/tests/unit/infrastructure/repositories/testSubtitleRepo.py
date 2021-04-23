@@ -9,7 +9,8 @@ from datetime import datetime
 class TestSubtitleRepo(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.movie_orm =  MovieORM.objects.create(name = "", year = 2000, url = "")
+        cls.movie_orm =  MovieORM.objects.create(title = "", year = 2000, director = "",
+                                                 poster_url = "", video_url = "")
         cls.subtitle_orm3 = SubtitleORM.objects.create(quote = "Monday is a bad day!!!",
                                                        start_time = datetime.now(),
                                                        end_time = datetime.now(),
@@ -86,14 +87,18 @@ class TestSubtitleRepo(TestCase):
         # Arrange
         movie_name = "Black swan"
         year = 2011
-        url = "https://blackswan/"
+        director = "Darren Aronofsky"
+        poster_url = "https://blackswan/poster"
+        video_url = "https://blackswan/video"
+        movie = Movie(title = movie_name, year = year, director = director,
+                      poster_url = poster_url, video_url = video_url)
 
         quote = "I am gonna die"
 
-        movie = Movie(name = movie_name, year = year, url = url)
         subtitle = Subtitle(quote = quote, start_time = datetime.now(),
                             end_time = datetime.now(), movie = movie)
-        expected_movie = {'name': movie_name, 'year': year, 'url': url}
+        expected_movie = {'title': movie_name, 'year': year, 'director': director,
+                          'poster_url': poster_url, 'video_url': video_url}
         subtitle_repo = SubtitleRepo()
 
         # Act
@@ -104,5 +109,7 @@ class TestSubtitleRepo(TestCase):
         self.assertIsNotNone(subtitle_orm)
         movie_orm = subtitle_orm.movie
         self.assertIsNotNone(movie_orm)
-        actual_movie = {'name': movie_orm.name, 'year': movie_orm.year, 'url': movie_orm.url}
+        actual_movie = {'title': movie_orm.title,
+                        'year': movie_orm.year, 'director': movie_orm.director,
+                        'poster_url': movie_orm.poster_url, 'video_url': movie_orm.video_url}
         self.assertDictEqual(expected_movie, actual_movie)
