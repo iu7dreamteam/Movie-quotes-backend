@@ -11,3 +11,6 @@ __pycache__/
 # IDEs
 .vscode/
 .idea/
+
+# migrations
+src/apps/movie_quotes/infrastructure/django/migrations/*
