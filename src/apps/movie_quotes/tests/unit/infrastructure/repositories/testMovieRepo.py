@@ -2,9 +2,8 @@ from django.test import TestCase
 from apps.movie_quotes.domain.repositories.MovieRepo import MovieRepo
 from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
 from apps.movie_quotes.domain.entities.Movie import Movie
-from datetime import datetime
 
-class TestSubtitle(TestCase):
+class TestMovieRepo(TestCase):
     @classmethod
     def setUpTestData(cls):
         pass

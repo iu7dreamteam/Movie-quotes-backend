@@ -6,7 +6,7 @@ from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 from apps.movie_quotes.domain.entities.Movie import Movie
 from datetime import datetime
 
-class TestSubtitle(TestCase):
+class TestSubtitleRepo(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.movie_orm =  MovieORM.objects.create(name = "", year = 2000, url = "")
