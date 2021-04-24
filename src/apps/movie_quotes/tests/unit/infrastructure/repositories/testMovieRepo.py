@@ -15,16 +15,21 @@ class TestMovieRepo(TestCase):
         # Arrange
         movie_name = "Black swan"
         year = 2011
-        url = "https://blackswan/"
-        movie_orm = MovieORM.objects.create(name = movie_name, year = year, url = url)
+        director = "Darren Aronofsky"
+        poster_url = "https://blackswan/poster"
+        video_url = "https://blackswan/video"
+        movie_orm = MovieORM.objects.create(title = movie_name, year = year, director = director,
+                                            poster_url = poster_url, video_url = video_url)
         id = movie_orm.id
-        expected_movie = {'id': id, 'name': movie_name, 'year': year, 'url': url}
+        expected_movie = {'id': id, 'title': movie_name, 'year': year, 'director': director,
+                          'poster_url': poster_url, 'video_url': video_url}
         movie_repo = MovieRepo()
 
         # Act
         movie_orm = movie_repo.get(id)
-        actual_movie = {'id': movie_orm.id, 'name': movie_orm.name,
-                        'year': movie_orm.year, 'url': movie_orm.url}
+        actual_movie = {'id': movie_orm.id, 'title': movie_orm.title,
+                        'year': movie_orm.year, 'director': movie_orm.director,
+                        'poster_url': movie_orm.poster_url, 'video_url': movie_orm.video_url}
 
         # Assert
         self.assertDictEqual(expected_movie, actual_movie)
@@ -33,19 +38,22 @@ class TestMovieRepo(TestCase):
         # Arrange
         movie_name = "Black swan"
         year = 2011
-        url = "https://blackswan/"
-
-        quote = "I am gonna die"
-
-        movie = Movie(name = movie_name, year = year, url = url)
-        expected_movie = {'name': movie_name, 'year': year, 'url': url}
+        director = "Darren Aronofsky"
+        poster_url = "https://blackswan/poster"
+        video_url = "https://blackswan/video"
+        movie = Movie(title = movie_name, year = year, director = director,
+                      poster_url = poster_url, video_url = video_url)
+        expected_movie = {'title': movie_name, 'year': year, 'director': director,
+                          'poster_url': poster_url, 'video_url': video_url}
         movie_repo = MovieRepo()
 
         # Act
         movie_repo.create(movie)
-        movie_orm = MovieORM.objects.all().filter(name = movie_name, year = year,
-                                                  url = url).first()
+        movie_orm = MovieORM.objects.all().filter(title = movie_name, year = year, director = director,
+                                                  poster_url = poster_url, video_url = video_url).first()
 
         # Assert
-        actual_movie = {'name': movie_orm.name, 'year': movie_orm.year, 'url': movie_orm.url}
+        actual_movie = {'title': movie_orm.title,
+                        'year': movie_orm.year, 'director': movie_orm.director,
+                        'poster_url': movie_orm.poster_url, 'video_url': movie_orm.video_url}
         self.assertDictEqual(expected_movie, actual_movie)
