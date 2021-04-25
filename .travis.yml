@@ -9,6 +9,7 @@ before_script:
   - echo DATABASE_URL=$DATABASE_URL >> .env
   - echo DEBUG=on >> .env
   - psql -c 'create database db_movies_quotes;' -U postgres
+  - cd src
   - chmod +x run_linter.sh
 
 install:
