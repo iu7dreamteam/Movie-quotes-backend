@@ -33,5 +33,7 @@ jobs:
         - python3 manage.py test apps/movie_quotes/tests/unit/domain/utility
     - stage: "Tests"
       name: "Integration"
+      script: echo 0
     - stage: "Tests"
       name: "End to end"
+      script: echo 0
