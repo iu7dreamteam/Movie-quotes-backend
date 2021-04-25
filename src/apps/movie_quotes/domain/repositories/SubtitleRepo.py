@@ -40,3 +40,25 @@ class SubtitleRepo:
 
         return subtitles
 
+    def find_by_quote_ordered_by_movie(self, quote: str) -> List[Subtitle]:
+        subtitles_orm = SubtitleORM.objects.filter(quote__icontains=quote)
+        subtitles_orm.order_by('movie')
+
+        subtitles = []
+
+        for subtitle_orm in subtitles_orm:
+            subtitles.append(self.transform(subtitle_orm))
+
+        return subtitles
+
+
+    class Mapper:
+        
+        @staticmethod
+        def from_domain(subtitle: Subtitle) -> SubtitleORM:
+            """
+            Subtitles is immutable object. It should't be changed in domain logic at all.
+            Thus we can provide mapping from domain object to ORM object just by
+            returning it's existing ORM instance by primary key.
+            """
+            return SubtitleORM.objects.get(pk=subtitle.id) 
