@@ -53,7 +53,6 @@ class SubtitleRepo:
 
 
     class Mapper:
-        
         @staticmethod
         def from_domain(subtitle: Subtitle) -> SubtitleORM:
             """
@@ -62,3 +61,4 @@ class SubtitleRepo:
             returning it's existing ORM instance by primary key.
             """
             return SubtitleORM.objects.get(pk=subtitle.id) 
+

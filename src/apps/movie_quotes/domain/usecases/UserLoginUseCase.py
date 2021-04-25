@@ -5,9 +5,7 @@ from apps.movie_quotes.domain.authorizer import Authorizer
 
 
 class UserLoginUseCase:
-    
-    def __init__(self, 
-                 user_profile_repo: UserProfileRepo,
+    def __init__(self, user_profile_repo: UserProfileRepo,
                  authorizer: Authorizer,
                  email, password):
 

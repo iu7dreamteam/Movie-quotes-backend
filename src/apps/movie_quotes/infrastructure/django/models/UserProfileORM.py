@@ -15,13 +15,13 @@ class UserProfileORM(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(_sender, instance, created, **_kwargs):
     if created:
         UserProfileORM.objects.create(user=instance)
 
 
 # Authentification
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
+def create_auth_token(_sender, instance=None, created=False, **_kwargs):
     if created:
         Token.objects.create(user=instance)

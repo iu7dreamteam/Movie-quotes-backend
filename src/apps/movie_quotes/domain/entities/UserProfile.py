@@ -19,7 +19,6 @@ class UserProfile(object):
     def email(self):
         return self._email
 
-    
     @id.setter
     def id(self, id):
         self._id = id
