@@ -24,3 +24,14 @@ class MovieRepo:
         return MovieORM.objects.all().filter(title = movie.title, director = movie.director,
                                              year = movie.year, poster_url = movie.poster_url,
                                              video_url = movie.video_url).first()
+
+
+    class Mapper:
+        @staticmethod
+        def from_domain(movie: Movie) -> MovieORM:
+            """
+            Movie is immutable object at least for now.
+            Thus we can provide mapping from domain object to ORM object just by
+            returning it's existing ORM instance by primary key.
+            """
+            return MovieORM.objects.get(pk=movie.id)
