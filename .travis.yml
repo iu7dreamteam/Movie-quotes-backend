@@ -20,7 +20,7 @@ jobs:
   include:
     - stage: "Build"
       name: "Building app"
-    - script: python3 manage.py migrate
+      script: python3 manage.py migrate
     - stage: "Linter"
       name: "Running linter"
       script: ./run_linter.sh
