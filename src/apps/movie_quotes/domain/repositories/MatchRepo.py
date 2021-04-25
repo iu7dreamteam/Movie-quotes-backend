@@ -18,7 +18,7 @@ class MatchRepo:
     def get(self, id) -> Match:
         return self.Mapper.to_domain(MatchORM.objects.get(pk=id))
 
-    def filter_by_user_profile(self, user_profile: UserProfile) -> List[Match]:
+    def filter_by_user(self, user_profile: UserProfile) -> List[Match]:
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
         query = MatchORM.objects.filter(user_profile=user_profile_orm)
 
@@ -28,9 +28,7 @@ class MatchRepo:
 
         return result_query
 
-    def filter_by_movie_and_user_profile(self,
-                                         movie: Movie,
-                                         user_profile: UserProfile) -> List[Match]:
+    def filter_by_movie_and_user(self, movie: Movie, user_profile: UserProfile) -> List[Match]:
         movie_orm = MovieRepo().Mapper.from_domain(movie)
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
 

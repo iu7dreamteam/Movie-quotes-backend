@@ -101,7 +101,7 @@ class TestMatchRepo(TestCase):
         compare(expected_match_orm, actual_match_orm)
 
 
-    def test__filter_by_user_profile(self):
+    def test__filter_by_user(self):
         # Arrange
         _user1 = User.objects.create(username='first', email='test1@mail.com', password='123')
         _user2 = User.objects.create(username='second', email='test2@mail.com', password='321')
@@ -157,8 +157,8 @@ class TestMatchRepo(TestCase):
         user_domain_1 = user_repo.get(user1.id)
         user_domain_2 = user_repo.get(user2.id)
 
-        actual_query_1 = match_repo.filter_by_user_profile(user_profile=user_domain_1)
-        actual_query_2 = match_repo.filter_by_user_profile(user_profile=user_domain_2)
+        actual_query_1 = match_repo.filter_by_user(user_profile=user_domain_1)
+        actual_query_2 = match_repo.filter_by_user(user_profile=user_domain_2)
 
         # Assert
         compare(expected_query_1, actual_query_1)
