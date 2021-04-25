@@ -18,10 +18,10 @@ class UserRegistrationUseCase:
 
     def execute(self) -> dict:
         if self._user_profile_repo.find_first_by_username(self._username) is not None:
-            raise UserAlreadyExistsError(f"username {self._username}")
+            raise UserAlreadyExists(f"username {self._username}")
 
         if self._user_profile_repo.find_first_by_email(self._email) is not None:
-            raise UserAlreadyExistsError(f"email {self._email}")
+            raise UserAlreadyExists(f"email {self._email}")
 
         user_profile = UserProfile(username=self._username, email=self._email)
         user_profile = self._user_profile_repo.create(user_profile, self._password)
@@ -35,6 +35,6 @@ class UserRegistrationUseCase:
         }
 
 
-class UserAlreadyExistsError(Exception):
+class UserAlreadyExists(Exception):
     def __init__(self, message=''):
         super().__init__("User with those parameters already exists: " + message)
