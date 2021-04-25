@@ -55,7 +55,7 @@ class TestSearchByQuoteUsecase(TestCase):
         )
 
         cls.sub_orm_3_movie_1 = SubtitleORM.objects.create(
-            quote="Hello, mr. Rossinsky! mr Saliery sends his regards (hello: 2/3)",
+            quote="Hello, mr. Rossinsky! mr. Saliery sends his regards (hello: 2/3)",
             start_time=time(hour=0, minute=0, second=34, microsecond=420000),
             end_time=time(hour=0, minute=0, second=37,microsecond=420000),
             movie=cls.movie_orm_1
@@ -63,7 +63,7 @@ class TestSearchByQuoteUsecase(TestCase):
 
         # subs for movie №2
         cls.sub_orm_4_movie_2 = SubtitleORM.objects.create(
-            quote="God bles aMuuuuuuuuuurica. This is the state of fredom. (God: 2/2)",
+            quote="God bles aMuuuuuuuuuurica. This is the state of freedom. (God: 2/2)",
             start_time=time(hour=0, minute=0, second=34, microsecond=420000),
             end_time=time(hour=0, minute=0, second=37,microsecond=420000),
             movie=cls.movie_orm_2
