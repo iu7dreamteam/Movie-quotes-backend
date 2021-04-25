@@ -26,4 +26,12 @@ jobs:
       script: ./run_linter.sh
     - stage: "Tests"
       name: "Unit"
-      script: python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
+      script:
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/usecases
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/utility
+    - stage: "Tests"
+      name: "Integration"
+    - stage: "Tests"
+      name: "End to end"
