@@ -1,0 +1,39 @@
+language: python
+services:
+  - postgresql
+python:
+  - "3.8"
+before_script:
+  - touch .env
+  - echo SECRET_KEY=$SECRET_KEY >> .env
+  - echo DATABASE_URL=$DATABASE_URL >> .env
+  - echo DEBUG=on >> .env
+  - psql -c 'create database db_movies_quotes;' -U postgres
+  - cd src
+  - chmod +x run_linter.sh
+  - python3 manage.py makemigrations
+
+install:
+  - pip3 install -r requirements.txt
+
+jobs:
+  include:
+    - stage: "Build"
+      name: "Building app"
+      script: python3 manage.py migrate
+    - stage: "Linter"
+      name: "Running linter"
+      script: ./run_linter.sh
+    - stage: "Tests"
+      name: "Unit"
+      script:
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/usecases
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/utility
+    - stage: "Tests"
+      name: "Integration"
+      script: echo 0
+    - stage: "Tests"
+      name: "End to end"
+      script: echo 0
