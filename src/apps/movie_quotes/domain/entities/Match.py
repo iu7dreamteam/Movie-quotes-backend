@@ -3,7 +3,7 @@ from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 
 
 class Match(object):
-    def __init__(self, id=None, user_profile=None, movie=None, subtitles=[]):
+    def __init__(self, id=None, user_profile=None, movie=None, subtitles=None):
         self._id = id
         self._user_profile = user_profile
         self._movie = movie
