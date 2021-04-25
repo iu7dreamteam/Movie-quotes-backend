@@ -3,9 +3,6 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 
 from apps.movie_quotes.domain.authorizer import Authorizer
 
-class UserAlreadyExists(Exception):
-    def __init__(self, message=''):
-        super().__init__("User with those parameters already exists: " + message)
 
 class UserRegistrationUseCase:
     def __init__(self, user_profile_repo: UserProfileRepo,
@@ -36,3 +33,8 @@ class UserRegistrationUseCase:
             "email": user_profile.email,
             "token": token
         }
+
+
+class UserAlreadyExistsError(Exception):
+    def __init__(self, message=''):
+        super().__init__("User with those parameters already exists: " + message)

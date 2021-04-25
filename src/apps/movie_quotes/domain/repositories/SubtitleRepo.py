@@ -39,4 +39,3 @@ class SubtitleRepo:
             subtitles.append(self.transform(subtitle_orm))
 
         return subtitles
-
