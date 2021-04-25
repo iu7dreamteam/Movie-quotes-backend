@@ -34,4 +34,4 @@ class MovieRepo:
             Thus we can provide mapping from domain object to ORM object just by
             returning it's existing ORM instance by primary key.
             """
-            return MovieORM.objects.get(pk=movie_domain.id)
+            return MovieORM.objects.get(pk=movie.id)

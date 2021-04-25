@@ -8,7 +8,10 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 
 from apps.movie_quotes.infrastructure.django.models.MatchORM import MatchORM
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from typing import List
+
 
 
 class MatchRepo:
@@ -17,7 +20,7 @@ class MatchRepo:
 
     def filter_by_user_profile(self, user_profile: UserProfile) -> List[Match]:
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
-        query = MatchORM.objects.filter(user_profile=user_profile_orm) 
+        query = MatchORM.objects.filter(user_profile=user_profile_orm)
 
         result_query = []
         for match in query:
@@ -56,7 +59,7 @@ class MatchRepo:
         subtitles_orm = []
         for sub_domain in match.subtitles:
             subtitles_orm.append(subtitle_repo.Mapper.from_domain(sub_domain))
-            
+
         match_orm.subtitles.set(subtitles_orm)
         match_orm.save()
 
@@ -93,7 +96,7 @@ class MatchRepo:
                 )
 
             user_profile = UserProfileRepo().get(match_orm.user_profile.id)
-            
+
             match_domain = Match(
                 id=match_orm.id,
                 user_profile=user_profile,

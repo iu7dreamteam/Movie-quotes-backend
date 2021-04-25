@@ -60,4 +60,4 @@ class SubtitleRepo:
             Thus we can provide mapping from domain object to ORM object just by
             returning it's existing ORM instance by primary key.
             """
-            return SubtitleORM.objects.get(pk=subtitle.id) 
+            return SubtitleORM.objects.get(pk=subtitle.id)

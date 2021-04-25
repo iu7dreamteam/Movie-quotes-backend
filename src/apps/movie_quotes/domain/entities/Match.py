@@ -38,11 +38,10 @@ class Match(object):
     def subtitles(self, subtitles):
         self._subtitles = subtitles
 
-    
     def append_subtitle(self, subtitle: Subtitle):
         if subtitle.movie.id != self.movie.id:
             raise DifferentMoviesInsertionError(
-                f'ids: {movie.id}, {self.movie_id}'
+                f'ids: {subtitle.movie.id}, {self.movie_id}'
             )
 
         self.subtitles.append(subtitle)
