@@ -9,6 +9,7 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 from apps.movie_quotes.infrastructure.django.models.MatchORM import MatchORM
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 from typing import List
 
@@ -69,7 +70,10 @@ class MatchRepo:
         for sub_domain in match.subtitles:
             subtitles_orm.append(subtitle_repo.Mapper.from_domain(sub_domain))
 
+        user_profile_orm = UserProfileRepo().Mapper.from_domain(match.user_profile)
+
         match_orm = MatchORM.objects.create(
+            user_profile=user_profile_orm,
             movie=MovieRepo().Mapper.from_domain(match.movie)
         )
 
