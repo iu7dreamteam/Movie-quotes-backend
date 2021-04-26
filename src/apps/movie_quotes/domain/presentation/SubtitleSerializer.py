@@ -11,9 +11,9 @@ class SubtitleSerializer:
     def deserealize(self, json_subtitle) -> Subtitle:
         """
             Subtitles are immutable for client side.
-            Thus, for now, just for speed development we will 
+            Thus, for now, just for speed development we will
             retrive only subtitle id from received json-subtitle string,
-            and later get complete subtitle object from repository by 
+            and later get complete subtitle object from repository by
             this id.
         """
         if type(json_subtitle) is dict:
@@ -30,5 +30,5 @@ class SubtitleSerializer:
 
     class Encoder(json.JSONEncoder):
         def default(self, o):
-            if isinstance(o, Subtitle):
+            if type(o) is Subtitle:
                 return o.to_dict()

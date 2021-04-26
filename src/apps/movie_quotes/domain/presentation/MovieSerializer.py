@@ -10,9 +10,9 @@ class MovieSerializer:
     def deserialize(self, json_movie) -> Movie:
         """
             Movies are immutable for client side.
-            Thus, for now, just for speed development we will 
+            Thus, for now, just for speed development we will
             retrive only movie id from received json-movie string,
-            and later get complete movie object from repository by 
+            and later get complete movie object from repository by
             this id.
         """
 
@@ -28,10 +28,10 @@ class MovieSerializer:
         movie = Movie(
             id=id
         )
-        
+
         return movie
 
     class Encoder(json.JSONEncoder):
         def default(self, o):
-            if isinstance(o, Movie):
+            if type(o) is Movie:
                 return o.to_dict()

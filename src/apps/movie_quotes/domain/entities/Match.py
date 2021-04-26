@@ -53,13 +53,13 @@ class Match(object):
     def to_dict(self):
         data = {}
         data["movie"] = self.movie.to_dict()
-        
+
         subtitles = []
         for sub in self.subtitles:
             subtitles.append(sub.to_dict())
 
         data["quotes"] = subtitles
-        
+
         return data
 
 

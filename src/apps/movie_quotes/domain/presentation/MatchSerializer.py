@@ -10,7 +10,7 @@ class MatchSerializer:
     def serialize(self, match: Match):
         json_match = self.Encoder().encode(match)
         return json_match
-    
+
     def deserialize(self, json_match) -> Match:
         dictionary = json.loads(json_match)
 
@@ -35,26 +35,3 @@ class MatchSerializer:
         def default(self, o):
             if isinstance(o, Match):
                 return o.to_dict()
-
-
-"""
-[
-  {
-    "movie": {
-      "id": 0,
-      "title": "string",
-      "year": "string",
-      "director": "string",
-      "poster": "string",
-      "url": "string"
-    },
-    "quotes": [
-      {
-        "id": 0,
-        "quote": "string",
-        "time": "string"
-      }
-    ]
-  }
-]
-"""
