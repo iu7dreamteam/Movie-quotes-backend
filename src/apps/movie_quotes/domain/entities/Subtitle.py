@@ -47,3 +47,10 @@ class Subtitle(object):
     @movie.setter
     def movie(self, movie):
         self._movie = movie
+
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "quote": self.quote,
+            "time": self.start_time.strftime("%H:%M:%S.%f")
+        }

@@ -26,6 +26,10 @@ class Match(object):
         return self._subtitles
 
 
+    @user_profile.setter
+    def user_profile(self, user_profile):
+        self._user_profile = user_profile
+
     @id.setter
     def id(self, id):
         self._id = id
@@ -45,6 +49,18 @@ class Match(object):
             )
 
         self.subtitles.append(subtitle)
+
+    def to_dict(self):
+        data = {}
+        data["movie"] = self.movie.to_dict()
+        
+        subtitles = []
+        for sub in self.subtitles:
+            subtitles.append(sub.to_dict())
+
+        data["quotes"] = subtitles
+        
+        return data
 
 
 class DifferentMoviesInsertionError(Exception):
