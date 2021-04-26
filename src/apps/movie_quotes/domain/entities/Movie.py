@@ -54,3 +54,14 @@ class Movie(object):
     @video_url.setter
     def video_url(self, video_url):
         self._video_url = video_url
+
+    def to_dict(self):
+        data = {}
+        data["id"] = str(self._id)
+        data["title"] = self._title
+        data["year"] = str(self._year)
+        data["director"] = self._director
+        data["poster"] = self.poster_url
+        data["url"] = self._video_url
+
+        return data
