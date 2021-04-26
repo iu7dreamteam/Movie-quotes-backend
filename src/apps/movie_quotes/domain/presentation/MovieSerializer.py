@@ -16,7 +16,7 @@ class MovieSerializer:
             this id.
         """
 
-        if type(json_movie) is dict:
+        if isinstance(json_movie, dict):
             id = json_movie['id']
         else:                           # Actual json string
             try:
@@ -33,5 +33,5 @@ class MovieSerializer:
 
     class Encoder(json.JSONEncoder):
         def default(self, o):
-            if type(o) is Movie:
+            if isinstance(o, Movie):
                 return o.to_dict()

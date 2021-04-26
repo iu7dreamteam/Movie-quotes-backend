@@ -16,7 +16,7 @@ class SubtitleSerializer:
             and later get complete subtitle object from repository by
             this id.
         """
-        if type(json_subtitle) is dict:
+        if isinstance(json_subtitle, dict):
             id = int(json_subtitle['id'])
         else:                                       # Actual json string
             dictionary = json.loads(json_subtitle)
@@ -30,5 +30,5 @@ class SubtitleSerializer:
 
     class Encoder(json.JSONEncoder):
         def default(self, o):
-            if type(o) is Subtitle:
+            if isinstance(o, Subtitle):
                 return o.to_dict()

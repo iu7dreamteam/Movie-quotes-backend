@@ -33,5 +33,5 @@ class MatchSerializer:
 
     class Encoder(json.JSONEncoder):
         def default(self, o):
-            if type(o) is Match:
+            if isinstance(o, Match):
                 return o.to_dict()
