@@ -15,16 +15,14 @@ class UserProfileRepo:
             password=password
         )
 
-        return self.Mapper.to_domain(
-            UserProfileORM.objects.get(user=user_orm)
-        )
+        return self.Mapper.to_domain(UserProfileORM.objects.get(user=user_orm))
 
-    def find_first_by_username(self, username) -> UserProfile:
+    def find_by_username(self, username) -> UserProfile:
         user_orm = User.objects.filter(username=username).first()
         if user_orm is not None:
             return self.get(id=user_orm.id)
 
-    def find_first_by_email(self, email) -> UserProfile:
+    def find_by_email(self, email) -> UserProfile:
         user_orm = User.objects.filter(email=email).first()
         if user_orm is not None:
             return self.get(id=user_orm.id)
@@ -32,7 +30,7 @@ class UserProfileRepo:
 
     class Mapper:
         @staticmethod
-        def to_domain(user_profile_orm: UserProfileORM):
+        def to_domain(user_profile_orm: UserProfileORM) -> UserProfile:
             return UserProfile(
                 id=user_profile_orm.id,
                 username=user_profile_orm.user.username,
@@ -40,5 +38,5 @@ class UserProfileRepo:
             )
 
         @staticmethod
-        def from_domain(user_profile: UserProfile):
+        def from_domain(user_profile: UserProfile) -> UserProfileORM:
             return UserProfileORM.objects.get(pk=user_profile.id)
