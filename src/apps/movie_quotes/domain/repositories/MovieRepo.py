@@ -1,20 +1,35 @@
 from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
 from apps.movie_quotes.domain.entities.Movie import Movie
 
-class MovieRepo:
-    def transform(self, movie_orm: MovieORM) -> Movie:
-        return Movie(id = movie_orm.id, title = movie_orm.title, director = movie_orm.director,
-                     year = movie_orm.year, poster_url = movie_orm.poster_url,
-                     video_url = movie_orm.video_url)
+from django.core.exceptions import ObjectDoesNotExist
 
-    def create(self, movie) -> MovieORM:
-        return MovieORM.objects.create(title = movie.title, director = movie.director,
-                                       year = movie.year, poster_url = movie.poster_url,
-                                       video_url = movie.video_url)
+from apps.movie_quotes.utility.helpers import set_if_not_none
+
+
+class MovieRepo:
+    def save(self, movie: Movie) -> Movie:
+        if movie.id is None:
+            saved_movie = self._create(movie)
+        else:
+            try:
+                movie_orm = MovieORM.objects.get(pk=movie.id)
+                movie_orm.title = set_if_not_none(movie_orm.title, movie.title)
+                movie_orm.director = set_if_not_none(movie_orm.director, movie.director)
+                movie_orm.year = set_if_not_none(movie_orm.year, movie.year)
+                movie_orm.poster_url = set_if_not_none(movie_orm.poster_url, movie.poster_url)
+                movie_orm.video_url = set_if_not_none(movie_orm.video_url, movie.video_url)
+
+                movie_orm.save()
+
+                saved_movie = self.Mapper.to_domain(movie_orm)
+            except ObjectDoesNotExist:
+                saved_movie = self._create(movie)
+
+        return saved_movie
 
     def get(self, id) -> Movie:
         movie_orm = MovieORM.objects.get(id = id)
-        return self.transform(movie_orm)
+        return self.Mapper.to_domain(movie_orm)
 
     def delete(self, id):
         movie_orm = MovieORM.objects.get(id = id)
@@ -25,8 +40,26 @@ class MovieRepo:
                                              year = movie.year, poster_url = movie.poster_url,
                                              video_url = movie.video_url).first()
 
+    def _create(self, movie: Movie) -> Movie:
+        movie_orm = MovieORM.objects.create(
+            title=movie.title,
+            director=movie.director,
+            year=movie.year,
+            poster_url=movie.poster_url,
+            video_url=movie.video_url
+        )
+
+        return self.Mapper.to_domain(movie_orm)
 
     class Mapper:
+        @staticmethod
+        def to_domain(movie: MovieORM) -> Movie:
+            return Movie(
+                id=movie.id, title=movie.title, director=movie.director,
+                year=movie.year, poster_url=movie.poster_url,
+                video_url=movie.video_url
+            )
+
         @staticmethod
         def from_domain(movie: Movie) -> MovieORM:
             """
