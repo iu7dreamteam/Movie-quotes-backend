@@ -36,7 +36,7 @@ class Movie(object):
         self._id = id
 
     @title.setter
-    def name(self, title):
+    def title(self, title):
         self._title = title
 
     @year.setter
