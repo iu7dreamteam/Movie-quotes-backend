@@ -17,7 +17,7 @@ class SubtitleRepo:
                 subtitle_orm = SubtitleORM.objects.get(pk=subtitle.id)
                 subtitle_orm.quote = set_if_not_none(subtitle_orm.quote, subtitle.quote)
                 subtitle_orm.start_time = set_if_not_none(subtitle_orm.start_time, subtitle.start_time)
-                subtitle_orm.end_time = set_if_not_none(subtitle_orm.end_time, subtitle_orm.end_time)
+                subtitle_orm.end_time = set_if_not_none(subtitle_orm.end_time, subtitle.end_time)
 
                 if subtitle.movie is not None:
                     movie_repo = MovieRepo()

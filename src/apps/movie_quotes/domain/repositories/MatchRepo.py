@@ -40,6 +40,7 @@ class MatchRepo:
     def filter_by_user(self, user_profile: UserProfile) -> List[Match]:
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
         query = MatchORM.objects.filter(user_profile=user_profile_orm)
+        query = query.order_by('-id')
 
         result_query = []
         for match in query:
@@ -132,7 +133,7 @@ class MatchRepo:
             movie_domain = MovieRepo.Mapper.to_domain(match_orm.movie)
 
             subtitles_domain = []
-            for sub in match_orm.subtitles.all():
+            for sub in match_orm.subtitles.all().order_by('-id'):
                 subtitles_domain.append(SubtitleRepo.Mapper.to_domain(sub))
 
             user_profile = UserProfileRepo().get(match_orm.user_profile.id)
