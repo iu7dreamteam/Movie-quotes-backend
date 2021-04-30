@@ -16,7 +16,7 @@ class UserLoginUseCase:
 
 
     def execute(self) -> dict:
-        user_profile = self._user_profile_repo.find_first_by_email(self._email)
+        user_profile = self._user_profile_repo.find_by_email(self._email)
         if user_profile is None:
             raise UserDoesNotExists()
 
