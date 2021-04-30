@@ -88,7 +88,7 @@ class TestMatchRepo(TestCase):
         expected_match_orm.save()
 
         match_domain = Match(
-            id=1, 
+            id=1,
             user_profile=self.user_profile,
             movie=self.movie, 
             subtitles=[self.sub_1, self.sub_2]
@@ -163,3 +163,32 @@ class TestMatchRepo(TestCase):
         # Assert
         compare(expected_query_1, actual_query_1)
         compare(expected_query_2, actual_query_2)
+
+    def test__save__should_create_a_new_object(self):
+        # Arrange
+        match = Match(
+            user_profile=self.user_profile,
+            movie=self.movie,
+            subtitles=[
+                self.sub_1,
+                self.sub_2
+            ]
+        )
+
+        expected_match_data = {
+            'user_profile': self.user_profile,
+            'movie': self.movie,
+            'subtitles_ids': [self.sub_1, self.sub_2]
+        }
+
+        # Act
+        match_repo = MatchRepo()
+        actual_match = match_repo.save(match)
+        actual_match_data = {
+            'user_profile': actual_match.user_profile,
+            'movie': actual_match.movie,
+            'subtitles_ids': actual_match.subtitles
+        }
+
+        # Assert
+        compare(expected_match_data, actual_match_data)
