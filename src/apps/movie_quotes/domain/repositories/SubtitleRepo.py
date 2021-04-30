@@ -3,24 +3,34 @@ from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 from apps.movie_quotes.domain.repositories.MovieRepo import MovieRepo
 from typing import List
 
+from django.core.exceptions import ObjectDoesNotExist
+
+from apps.movie_quotes.utility.helpers import set_if_not_none
+
+
 class SubtitleRepo:
-    def transform(self, subtitle_orm: SubtitleORM) -> Subtitle:
-        return Subtitle(id = subtitle_orm.id, quote = subtitle_orm.quote,
-                        start_time = subtitle_orm.start_time,
-                        end_time = subtitle_orm.end_time,
-                        movie = MovieRepo().transform(subtitle_orm.movie))
+    def save(self, subtitle: Subtitle) -> Subtitle:
+        if subtitle.id is None:
+            saved_subtitle = self._create(subtitle)
+        else:
+            try:
+                subtitle_orm = SubtitleORM.objects.get(pk=subtitle.id)
+                subtitle_orm.quote = set_if_not_none(subtitle_orm.quote, subtitle.quote)
+                subtitle_orm.start_time = set_if_not_none(subtitle_orm.start_time, subtitle.start_time)
+                subtitle_orm.end_time = set_if_not_none(subtitle_orm.end_time, subtitle_orm.end_time)
 
-    def create(self, subtitle):
-        movie_orm = MovieRepo().find_first(subtitle.movie)
+                if subtitle.movie is not None:
+                    movie_repo = MovieRepo()
+                    movie_orm = movie_repo.save(subtitle.movie)
+                    subtitle_orm.movie = MovieRepo.Mapper.from_domain(movie_orm)
 
-        if movie_orm is None:
-            movie_orm = MovieRepo().create(subtitle.movie)
+                subtitle_orm.save()
 
-        subtitle_orm = SubtitleORM.objects.create(quote = subtitle.quote,
-                                                  start_time = subtitle.start_time,
-                                                  end_time = subtitle.end_time,
-                                                  movie = movie_orm)
-        return subtitle_orm
+                saved_subtitle = self.Mapper.to_domain(subtitle_orm)
+            except ObjectDoesNotExist:
+                saved_subtitle = self._create(subtitle)
+
+        return saved_subtitle
 
     def delete(self, id):
         subtitle_orm = SubtitleORM.objects.get(id = id)
@@ -28,7 +38,7 @@ class SubtitleRepo:
 
     def get(self, id) -> Subtitle:
         subtitle_orm = SubtitleORM.objects.get(id = id)
-        return self.transform(subtitle_orm)
+        return self.Mapper.to_domain(subtitle_orm)
 
     def find_by_quote(self, quote: str) -> List[Subtitle]:
         subtitles_orm = SubtitleORM.objects.filter(quote__icontains=quote)
@@ -36,7 +46,7 @@ class SubtitleRepo:
         subtitles = []
 
         for subtitle_orm in subtitles_orm:
-            subtitles.append(self.transform(subtitle_orm))
+            subtitles.append(self.Mapper.to_domain(subtitle_orm))
 
         return subtitles
 
@@ -47,16 +57,37 @@ class SubtitleRepo:
         subtitles = []
 
         for subtitle_orm in subtitles_orm:
-            subtitles.append(self.transform(subtitle_orm))
+            subtitles.append(self.Mapper.to_domain(subtitle_orm))
 
         return subtitles
+
+    def _create(self, subtitle: Subtitle) -> Subtitle:
+        movie = MovieRepo().save(subtitle.movie)
+
+        subtitle_orm = SubtitleORM.objects.create(
+            quote=subtitle.quote,
+            start_time=subtitle.start_time,
+            end_time=subtitle.end_time,
+            movie=MovieRepo.Mapper.from_domain(movie)
+        )
+
+        return self.Mapper.to_domain(subtitle_orm)
 
 
     class Mapper:
         @staticmethod
+        def to_domain(subtitle: SubtitleORM) -> Subtitle:
+            return Subtitle(
+                id=subtitle.id, quote=subtitle.quote,
+                start_time=subtitle.start_time,
+                end_time=subtitle.end_time,
+                movie=MovieRepo.Mapper.to_domain(subtitle.movie)
+            )
+
+        @staticmethod
         def from_domain(subtitle: Subtitle) -> SubtitleORM:
             """
-            Subtitles is immutable object. It should't be changed in domain logic at all.
+            Subtitle is immutable object. It should't be changed in domain logic at all.
             Thus we can provide mapping from domain object to ORM object just by
             returning it's existing ORM instance by primary key.
             """
