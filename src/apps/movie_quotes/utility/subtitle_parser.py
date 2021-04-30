@@ -24,7 +24,7 @@ class SubtitleParser:
                 start_time=raw_subtitle.start,
                 end_time=raw_subtitle.end
             )
-            
+
             subtitle_entities.append(subtitle_entity)
 
         return subtitle_entities

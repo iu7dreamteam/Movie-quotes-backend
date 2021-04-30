@@ -1,9 +1,8 @@
 from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
 from apps.movie_quotes.domain.entities.Movie import Movie
+from apps.movie_quotes.utility.helpers import set_if_not_none
 
 from django.core.exceptions import ObjectDoesNotExist
-
-from apps.movie_quotes.utility.helpers import set_if_not_none
 
 
 class MovieRepo:

@@ -1,11 +1,11 @@
 from apps.movie_quotes.infrastructure.django.models.SubtitleORM import SubtitleORM
 from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 from apps.movie_quotes.domain.repositories.MovieRepo import MovieRepo
+from apps.movie_quotes.utility.helpers import set_if_not_none
+
 from typing import List
 
 from django.core.exceptions import ObjectDoesNotExist
-
-from apps.movie_quotes.utility.helpers import set_if_not_none
 
 
 class SubtitleRepo:
