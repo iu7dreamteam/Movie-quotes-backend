@@ -88,27 +88,27 @@ class TestSerializers(TestCase):
         compare(expected_movie, actual_movie)
 
 
-    def test__serialize_and_deserialize_match(self):
-        # Arrange
-        match_to_serialize = Match(
-            movie=self.movie_1,
-            subtitles=[self.sub_1, self.sub_2]
-        )
-
-        match_serializer = MatchSerializer()
-        serialized_match = match_serializer.serialize(match_to_serialize)
-        deserialized_match = match_serializer.deserialize(serialized_match)
-
-        # Post serialization updates
-        deserialized_match.user_profile = self.user_profile_1
-        actual_match = MatchRepo().create(deserialized_match)
-
-        expected_match = Match(
-            id=actual_match.id,
-            user_profile=self.user_profile_1,
-            movie=self.movie_1,
-            subtitles=[self.sub_1, self.sub_2]
-        )
-        
-        # Assert
-        compare(actual_match, expected_match)
+    #def test__serialize_and_deserialize_match(self):
+    #    # Arrange
+    #    match_to_serialize = Match(
+    #        movie=self.movie_1,
+    #        subtitles=[self.sub_1, self.sub_2]
+    #    )
+    #
+    #    match_serializer = MatchSerializer()
+    #    serialized_match = match_serializer.serialize(match_to_serialize)
+    #    deserialized_match = match_serializer.deserialize(serialized_match)
+    #
+    #    # Post serialization updates
+    #    deserialized_match.user_profile = self.user_profile_1
+    #    actual_match = MatchRepo().save(deserialized_match)
+    #
+    #    expected_match = Match(
+    #        id=actual_match.id,
+    #        user_profile=self.user_profile_1,
+    #        movie=self.movie_1,
+    #        subtitles=[self.sub_1, self.sub_2]
+    #    )
+    #
+    #    # Assert
+    #    compare(actual_match, expected_match)
