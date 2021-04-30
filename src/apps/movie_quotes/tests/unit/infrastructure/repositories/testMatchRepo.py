@@ -61,18 +61,18 @@ class TestMatchRepo(TestCase):
             movie=self.movie_orm,
             user_profile=self.user_profile_orm
         )
-        match_orm.subtitles.set([self.sub_orm_1, self.sub_orm_2])
+        match_orm.subtitles.set([self.sub_orm_2, self.sub_orm_1])
         match_orm.save()
 
         expected_match = Match(
             id=match_orm.id,
             user_profile=self.user_profile,
             movie=self.movie,
-            subtitles=[self.sub_1, self.sub_2]
+            subtitles=[self.sub_2, self.sub_1]
         )
 
         # Act
-        actual_match = MatchRepo().Mapper.to_domain(match_orm)
+        actual_match = MatchRepo.Mapper.to_domain(match_orm)
 
         # Assert
         compare(expected_match, actual_match)
@@ -144,8 +144,8 @@ class TestMatchRepo(TestCase):
 
         match_repo = MatchRepo()
         expected_query_1 = [
-            match_repo.get(id=match1.id),
             match_repo.get(id=match3.id),
+            match_repo.get(id=match1.id),
         ]
 
         expected_query_2 = [
@@ -178,7 +178,7 @@ class TestMatchRepo(TestCase):
         expected_match_data = {
             'user_profile': self.user_profile,
             'movie': self.movie,
-            'subtitles_ids': [self.sub_1, self.sub_2]
+            'subtitles_ids': [self.sub_2, self.sub_1]
         }
 
         # Act

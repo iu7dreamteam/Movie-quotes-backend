@@ -2,7 +2,7 @@ from django.test import TestCase
 from testfixtures import compare
 
 from apps.movie_quotes.domain.entities.Subtitle import Subtitle
-from apps.movie_quotes.domain.utility.subtitle_parser import SubtitleParser
+from apps.movie_quotes.utility.subtitle_parser import SubtitleParser
 
 from datetime import time
 
@@ -39,7 +39,7 @@ class TestSubtitleParser(TestCase):
         ]
 
         # Act
-        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/domain/utility/res/The_Lord_of_the_Rings(2001).srt')
+        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/utility/res/The_Lord_of_the_Rings(2001).srt')
 
         # Assert
         compare(actual_subtitles, expected_subtitles)
@@ -66,7 +66,7 @@ class TestSubtitleParser(TestCase):
         ]
 
         # Act
-        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/domain/utility/res/The_Lord_of_the_Rings(2001).ru.srt')
+        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/utility/res/The_Lord_of_the_Rings(2001).ru.srt')
 
         # Assert
         compare(actual_subtitles, expected_subtitles)
@@ -94,7 +94,7 @@ class TestSubtitleParser(TestCase):
         ]
 
         # Act
-        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/domain/utility/res/The_Lord_of_the_Rings(2001).bengal.colored.srt')
+        actual_subtitles = SubtitleParser.parse('./apps/movie_quotes/tests/unit/utility/res/The_Lord_of_the_Rings(2001).bengal.colored.srt')
 
         # Assert
         compare(actual_subtitles, expected_subtitles)
