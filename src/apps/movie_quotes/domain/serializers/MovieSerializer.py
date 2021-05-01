@@ -2,32 +2,33 @@ from apps.movie_quotes.domain.entities.Movie import Movie
 
 import json
 
+
 class MovieSerializer:
     def serialize(self, movie: Movie):
         json_movie = self.Encoder().encode(movie)
         return json_movie
 
-    def deserialize(self, json_movie) -> Movie:
-        """
-            Movies are immutable for client side.
-            Thus, for now, just for speed development we will
-            retrive only movie id from received json-movie string,
-            and later get complete movie object from repository by
-            this id.
-        """
+    def deserialize(self, serialized) -> Movie:
+        if isinstance(serialized, str):
+            serialized = json.loads(serialized)
+        return self._parse_dictionary(serialized)
 
-        if isinstance(json_movie, dict):
-            id = json_movie['id']
-        else:                           # Actual json string
-            try:
-                dictionary = json.loads(json_movie)
-                id = dictionary['id']
-            except TypeError:
-                id = None
+    def _parse_dictionary(self, dictionary) -> Movie:
+        movie = Movie(id=None, title=None, year=None, director=None,
+                      poster_url=None, video_url=None)
 
-        movie = Movie(
-            id=id
-        )
+        if "id" in dictionary:
+            movie.id = int(dictionary["id"])
+        if "title" in dictionary:
+            movie.title = dictionary["title"]
+        if "director" in dictionary:
+            movie.director = dictionary["director"]
+        if "year" in dictionary:
+            movie.year = int(dictionary["year"])
+        if "poster" in dictionary:
+            movie.poster_url = dictionary["poster"]
+        if "url" in dictionary:
+            movie.video_url = dictionary["url"]
 
         return movie
 
