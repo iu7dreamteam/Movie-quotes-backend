@@ -1,0 +1,38 @@
+from apps.movie_quotes.domain.entities.Movie import Movie
+
+import json
+
+
+class MovieSerializer:
+    def serialize(self, movie: Movie):
+        json_movie = self.Encoder().encode(movie)
+        return json_movie
+
+    def deserialize(self, serialized) -> Movie:
+        if isinstance(serialized, str):
+            serialized = json.loads(serialized)
+        return self._parse_dictionary(serialized)
+
+    def _parse_dictionary(self, dictionary) -> Movie:
+        movie = Movie(id=None, title=None, year=None, director=None,
+                      poster_url=None, video_url=None)
+
+        if "id" in dictionary:
+            movie.id = int(dictionary["id"])
+        if "title" in dictionary:
+            movie.title = dictionary["title"]
+        if "director" in dictionary:
+            movie.director = dictionary["director"]
+        if "year" in dictionary:
+            movie.year = int(dictionary["year"])
+        if "poster" in dictionary:
+            movie.poster_url = dictionary["poster"]
+        if "url" in dictionary:
+            movie.video_url = dictionary["url"]
+
+        return movie
+
+    class Encoder(json.JSONEncoder):
+        def default(self, o):
+            if isinstance(o, Movie):
+                return o.to_dict()

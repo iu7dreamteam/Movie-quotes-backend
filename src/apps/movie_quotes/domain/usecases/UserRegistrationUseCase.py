@@ -17,10 +17,10 @@ class UserRegistrationUseCase:
 
 
     def execute(self) -> dict:
-        if self._user_profile_repo.find_first_by_username(self._username) is not None:
+        if self._user_profile_repo.find_by_username(self._username) is not None:
             raise UserAlreadyExists(f"username {self._username}")
 
-        if self._user_profile_repo.find_first_by_email(self._email) is not None:
+        if self._user_profile_repo.find_by_email(self._email) is not None:
             raise UserAlreadyExists(f"email {self._email}")
 
         user_profile = UserProfile(username=self._username, email=self._email)

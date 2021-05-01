@@ -38,17 +38,17 @@ class TestShowUserHistoryUsecase(TestCase):
         user_profile_orm_3 = UserProfileORM.objects.get(user=user_3)
 
         movie_orm_1 = MovieORM.objects.create(
-            title='kino1', year=1, 
+            title='kino1', year=1,
             director='me', poster_url='123', video_url='123'
         )
 
         movie_orm_2 = MovieORM.objects.create(
-            title='kino2', year=1, 
+            title='kino2', year=1,
             director='notme', poster_url='1234', video_url='1234'
         )
 
         movie_orm_3 = MovieORM.objects.create(
-            title='kino3', year=1, 
+            title='kino3', year=1,
             director='notme', poster_url='12345', video_url='12348'
         )
 
@@ -58,7 +58,7 @@ class TestShowUserHistoryUsecase(TestCase):
             end_time=datetime.now(),
             movie=movie_orm_1
         )
-        
+
         sub_orm_2_movie_1 = SubtitleORM.objects.create(
             quote='There are lots of misspelling errrorrs',
             start_time=datetime.now(),
@@ -114,8 +114,8 @@ class TestShowUserHistoryUsecase(TestCase):
     def test__execute(self):
         # Arrange
         expected_matches = [
-            self.match_1,
-            self.match_2
+            self.match_2,
+            self.match_1
         ]
 
         # Act

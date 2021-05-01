@@ -4,7 +4,7 @@ from apps.movie_quotes.infrastructure.django.models.SubtitleORM import SubtitleO
 from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
 from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 from apps.movie_quotes.domain.entities.Movie import Movie
-from datetime import datetime
+from datetime import datetime, time
 
 class TestSubtitleRepo(TestCase):
     @classmethod
@@ -83,7 +83,7 @@ class TestSubtitleRepo(TestCase):
         # Assert
         self.assertDictEqual(expected_subtitle, actual_subtitle)
 
-    def test_create_subtitle(self):
+    def test_save(self):
         # Arrange
         movie_name = "Black swan"
         year = 2011
@@ -102,7 +102,7 @@ class TestSubtitleRepo(TestCase):
         subtitle_repo = SubtitleRepo()
 
         # Act
-        subtitle_repo.create(subtitle)
+        subtitle_repo.save(subtitle)
         subtitle_orm = SubtitleORM.objects.all().filter(quote = quote).first()
 
         # Assert
@@ -113,3 +113,56 @@ class TestSubtitleRepo(TestCase):
                         'year': movie_orm.year, 'director': movie_orm.director,
                         'poster_url': movie_orm.poster_url, 'video_url': movie_orm.video_url}
         self.assertDictEqual(expected_movie, actual_movie)
+
+    def test_save__try_to_update_with_none_values(self):
+        # Arrange
+        movie_name = "Black swan"
+        year = 2011
+        director = "Darren Aronofsky"
+        poster_url = "https://blackswan/poster"
+        video_url = "https://blackswan/video"
+
+        movie_orm = MovieORM.objects.create(
+            title=movie_name,
+            year=year,
+            director=director,
+            poster_url=poster_url,
+            video_url=video_url
+        )
+
+        quote = "I am gonna die"
+        start_time = time(hour=0, minute=0, second=37, microsecond=673000)
+        end_time = time(hour=0, minute=0, second=40, microsecond=673000)
+
+        subtitle_orm = SubtitleORM.objects.create(
+            quote=quote,
+            start_time=start_time,
+            end_time=end_time,
+            movie=movie_orm
+        )
+
+        expected_subtitle_data = {
+            'quote': quote,
+            'start_time': start_time,
+            'end_time': end_time,
+            'movie_id': movie_orm.id
+        }
+
+
+        # Act
+        subtitle_repo = SubtitleRepo()
+
+        existing_subtitle = subtitle_repo.get(subtitle_orm.id)
+        existing_subtitle.quote = None
+        existing_subtitle.movie = None
+        actual_subtitle = subtitle_repo.save(existing_subtitle)
+
+        actual_subtitle_data = {
+            'quote': actual_subtitle.quote,
+            'start_time': actual_subtitle.start_time,
+            'end_time': actual_subtitle.end_time,
+            'movie_id': actual_subtitle.movie.id
+        }
+
+        # Assert
+        self.assertDictEqual(expected_subtitle_data, actual_subtitle_data)

@@ -32,7 +32,7 @@ class TestUpdateUserHistoryUsecase(TestCase):
             end_time=datetime.now(),
             movie=movie_orm_1
         )
-        
+
         sub_orm_2_movie_1 = SubtitleORM.objects.create(
             quote='There are lots of misspelling errrorrs',
             start_time=datetime.now(),
@@ -66,10 +66,6 @@ class TestUpdateUserHistoryUsecase(TestCase):
             subtitles=[self.sub_1_movie_1, self.sub_2_movie_1]
         )
 
-        expected_user_matches = [
-            match_to_save
-        ]
-        
         # Act
         usecase = UpdateUserHistoryUsecase(
             user_profile=self.user_profile_1,
@@ -97,17 +93,15 @@ class TestUpdateUserHistoryUsecase(TestCase):
         match_1 = Match(
             user_profile=self.user_profile_1,
             movie=self.movie_1,
-            subtitles=[self.sub_1_movie_1, self.sub_2_movie_1]
-        )
+            subtitles=[self.sub_1_movie_1, self.sub_2_movie_1])
+        match_1 = MatchRepo().save(match_1)
+
 
         match_2 = Match(
             user_profile=self.user_profile_1,
             movie=self.movie_1,
-            subtitles=[self.sub_1_movie_1]
-        )
-
-        match_1 = MatchRepo().create(match_1)
-        match_2 = MatchRepo().create(match_2)
+            subtitles=[self.sub_1_movie_1])
+        match_2 = MatchRepo().save(match_2)
 
         # Act
         match_to_save = Match(
@@ -124,14 +118,14 @@ class TestUpdateUserHistoryUsecase(TestCase):
 
         usecase.execute()
 
-        match_orm = MatchORM.objects.latest('id')
+        latest_match_orm = MatchORM.objects.latest('id')
         expected_user_matches = [
-            match_1,
+            MatchRepo().get(latest_match_orm.id),
             match_2,
-            MatchRepo().get(match_orm.id)
+            match_1
         ]
 
-        # Assert
         actual_user_matches = MatchRepo().filter_by_user(self.user_profile_1)
 
+        # Assert
         compare(expected_user_matches, actual_user_matches)
