@@ -60,49 +60,6 @@ class MatchRepo:
 
         return result_query
 
-
-    #def create_or_update(self, match: Match) -> Match:
-    #    if match.id is not None:
-    #        try:
-    #            MatchORM.objects.get(pk=match.id)
-    #            match = self._update(match)
-    #        except ObjectDoesNotExist:
-    #            match = self.create(match)
-    #
-    #    return match
-    #
-    #def _update(self, match: Match) -> Match:
-    #    match_orm = MatchORM.objects.get(pk=match.id)
-    #
-    #    subtitle_repo = SubtitleRepo()
-    #    subtitles_orm = []
-    #    for sub_domain in match.subtitles:
-    #        subtitles_orm.append(subtitle_repo.Mapper.from_domain(sub_domain))
-    #
-    #    match_orm.subtitles.set(subtitles_orm)
-    #    match_orm.save()
-    #
-    #    return self.Mapper.to_domain(match_orm)
-    #
-    #def create(self, match: Match) -> Match:
-    #    subtitle_repo = SubtitleRepo()
-    #    subtitles_orm = []
-    #    for sub_domain in match.subtitles:
-    #        subtitles_orm.append(subtitle_repo.Mapper.from_domain(sub_domain))
-    #
-    #    user_profile_orm = UserProfileRepo().Mapper.from_domain(match.user_profile)
-    #
-    #    match_orm = MatchORM.objects.create(
-    #        user_profile=user_profile_orm,
-    #        movie=MovieRepo().Mapper.from_domain(match.movie)
-    #    )
-    #
-    #    match_orm.subtitles.set(subtitles_orm)
-    #    match_orm.save()
-    #
-    #    return self.Mapper.to_domain(match_orm)
-    #
-
     def _create(self, match: Match) -> Match:
         if match.user_profile is None:
             raise NoUserDefinedForMatch()
