@@ -19,7 +19,10 @@ class RegistrationView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         if password != repeated_password:
-            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+                data='Пароли не совпадают'
+            )
 
         registration_usecase = UserRegistrationUseCase(
             user_profile_repo=UserProfileRepo(),
@@ -40,6 +43,9 @@ class RegistrationView(APIView):
             )
             response.set_cookie(key='token', value=result['token'])
         except UserAlreadyExists:
-            response = Response(status=status.HTTP_409_CONFLICT)
+            response = Response(
+                status=status.HTTP_409_CONFLICT,
+                data='Пользователь уже существует'
+            )
 
         return response
