@@ -20,10 +20,14 @@ class UserLoginUseCase:
         if user_profile is None:
             raise UserDoesNotExists()
 
+        if not self._user_profile_repo.check_password(user_profile, self._password):
+            raise IncorrectPassword()
+
         token = self._authorizer.get_token(user_profile)
 
         return {
             'username': user_profile.username,
+            'email': user_profile.email,
             'token': token
         }
 
@@ -31,3 +35,7 @@ class UserLoginUseCase:
 class UserDoesNotExists(Exception):
     def __init__(self, message=''):
         super().__init__("User with those parameters does not exists" + message)
+
+class IncorrectPassword(Exception):
+    def __init__(self, message=''):
+        super().__init__("Given password is not correct" + message)
