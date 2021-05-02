@@ -5,7 +5,7 @@ from apps.movie_quotes.infrastructure.django.models.UserProfileORM import UserPr
 class UserProfileRepo:
 
     def get(self, id) -> UserProfile:
-        user_profile_orm = UserProfileORM.objects.get(pk=id)
+        user_profile_orm = UserProfileORM.objects.get(user_id=id)
         return self.Mapper.to_domain(user_profile_orm)
 
     def create(self, user_profile: UserProfile, password) -> UserProfile:
@@ -21,12 +21,18 @@ class UserProfileRepo:
         user_orm = User.objects.filter(username=username).first()
         if user_orm is not None:
             return self.get(id=user_orm.id)
+        return None
 
     def find_by_email(self, email) -> UserProfile:
         user_orm = User.objects.filter(email=email).first()
         if user_orm is not None:
             return self.get(id=user_orm.id)
+        return None
 
+    def check_password(self, user_profile: UserProfile, password: str) -> bool:
+        user_profile_orm = self.Mapper.from_domain(user_profile)
+        result = user_profile_orm.user.check_password(password)
+        return result
 
     class Mapper:
         @staticmethod

@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from apps.movie_quotes.views.LoginView import LoginView
+from apps.movie_quotes.views.RegistrationView import RegistrationView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('session/login/', LoginView.as_view()),
+    path('session/registration/', RegistrationView.as_view()),
 ]
