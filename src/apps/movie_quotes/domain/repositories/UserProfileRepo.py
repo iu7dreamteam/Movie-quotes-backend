@@ -29,6 +29,11 @@ class UserProfileRepo:
             return self.get(id=user_orm.id)
         return None
 
+    def check_password(self, user_profile: UserProfile, password: str) -> bool:
+        user_profile_orm = self.Mapper.from_domain(user_profile)
+        result = user_profile_orm.user.check_password(password)
+        return result
+
     class Mapper:
         @staticmethod
         def to_domain(user_profile_orm: UserProfileORM) -> UserProfile:
