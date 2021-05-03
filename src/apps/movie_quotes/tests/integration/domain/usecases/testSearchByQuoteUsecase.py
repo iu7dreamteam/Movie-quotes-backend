@@ -102,6 +102,7 @@ class TestSearchByQuoteUsecase(TestCase):
 
         expected_matches= [
             Match(
+                quote=quote,
                 movie=self.movie_1,
                 subtitles=[
                     self.sub_1_movie_1,
@@ -110,6 +111,7 @@ class TestSearchByQuoteUsecase(TestCase):
             ),
 
             Match(
+                quote=quote,
                 movie=self.movie_2,
                 subtitles=[
                     self.sub_5_movie_2
@@ -133,6 +135,7 @@ class TestSearchByQuoteUsecase(TestCase):
 
         expected_matches= [
             Match(
+                quote=quote,
                 movie=self.movie_1,
                 subtitles=[
                     self.sub_2_movie_1
@@ -140,6 +143,7 @@ class TestSearchByQuoteUsecase(TestCase):
             ),
 
             Match(
+                quote=quote,
                 movie=self.movie_2,
                 subtitles=[
                     self.sub_4_movie_2
@@ -179,6 +183,7 @@ class TestSearchByQuoteUsecase(TestCase):
 
         expected_matches = [
             Match(
+                quote=quote,
                 movie=self.movie_2,
                 subtitles=[
                     self.sub_6_movie_2

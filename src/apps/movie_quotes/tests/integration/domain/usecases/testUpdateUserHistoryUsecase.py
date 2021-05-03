@@ -61,6 +61,7 @@ class TestUpdateUserHistoryUsecase(TestCase):
     def test__execute__history_empty(self):
         # Arrange
         match_to_save = Match(
+            quote='test',
             user_profile=self.user_profile_1,
             movie=self.movie_1,
             subtitles=[self.sub_1_movie_1, self.sub_2_movie_1]
@@ -91,6 +92,7 @@ class TestUpdateUserHistoryUsecase(TestCase):
         # Arrange
         # fill up the history
         match_1 = Match(
+            quote='test1',
             user_profile=self.user_profile_1,
             movie=self.movie_1,
             subtitles=[self.sub_1_movie_1, self.sub_2_movie_1])
@@ -98,6 +100,7 @@ class TestUpdateUserHistoryUsecase(TestCase):
 
 
         match_2 = Match(
+            quote='test2',
             user_profile=self.user_profile_1,
             movie=self.movie_1,
             subtitles=[self.sub_1_movie_1])
@@ -105,6 +108,7 @@ class TestUpdateUserHistoryUsecase(TestCase):
 
         # Act
         match_to_save = Match(
+            quote='test3',
             user_profile=self.user_profile_1,
             movie=self.movie_1,
             subtitles=[self.sub_1_movie_1, self.sub_3_movie_1]

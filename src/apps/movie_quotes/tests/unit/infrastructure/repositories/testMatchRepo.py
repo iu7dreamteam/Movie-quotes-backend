@@ -58,6 +58,7 @@ class TestMatchRepo(TestCase):
     def test__Mapper__to_domain(self):
        # Arrange
         match_orm = MatchORM.objects.create(
+            quote='test',
             movie=self.movie_orm,
             user_profile=self.user_profile_orm
         )
@@ -66,6 +67,7 @@ class TestMatchRepo(TestCase):
 
         expected_match = Match(
             id=match_orm.id,
+            quote='test',
             user_profile=self.user_profile,
             movie=self.movie,
             subtitles=[self.sub_2, self.sub_1]
@@ -167,6 +169,7 @@ class TestMatchRepo(TestCase):
     def test__save__should_create_a_new_object(self):
         # Arrange
         match = Match(
+            quote='test',
             user_profile=self.user_profile,
             movie=self.movie,
             subtitles=[
@@ -176,6 +179,7 @@ class TestMatchRepo(TestCase):
         )
 
         expected_match_data = {
+            'quote': 'test',
             'user_profile': self.user_profile,
             'movie': self.movie,
             'subtitles_ids': [self.sub_2, self.sub_1]
@@ -185,6 +189,7 @@ class TestMatchRepo(TestCase):
         match_repo = MatchRepo()
         actual_match = match_repo.save(match)
         actual_match_data = {
+            'quote': actual_match.quote,
             'user_profile': actual_match.user_profile,
             'movie': actual_match.movie,
             'subtitles_ids': actual_match.subtitles
