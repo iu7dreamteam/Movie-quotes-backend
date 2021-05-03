@@ -18,6 +18,8 @@ class SearchByQuoteUsecase:
             return []
 
         matches = self._pack_subtitles_into_matches(subtitles)
+        for match in matches:
+            match.quote = self._quote
 
         return matches
 

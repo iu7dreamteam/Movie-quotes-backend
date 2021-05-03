@@ -26,11 +26,11 @@ class Subtitle(object):
     """
 
     @property
-    def id(self):
+    def id(self):               # pylint:disable=duplicate-code
         return self._id
 
     @property
-    def quote(self):
+    def quote(self):            # pylint:disable=duplicate-code
         return self._quote
 
     @property
@@ -45,11 +45,11 @@ class Subtitle(object):
     def movie(self):
         return self._movie
 
-    @id.setter
+    @id.setter                  # pylint:disable=duplicate-code
     def id(self, id):
         self._id = id
 
-    @quote.setter
+    @quote.setter               # pylint:disable=duplicate-code
     def quote(self, quote):
         self._quote = quote
 
