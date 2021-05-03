@@ -13,4 +13,5 @@ class UpdateUserHistoryUsecase:
         self._match_repo = match_repo
 
     def execute(self):
+        self._match_to_save.user_profile = self._user_profile
         self._match_to_save = self._match_repo.save(self._match_to_save)
