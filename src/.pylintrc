@@ -114,6 +114,9 @@ ignore-comments=yes
 # Ignore docstrings when computing similarities.
 ignore-docstrings=yes
 
+# Ignore imports when computing similarities.
+ignore-imports=yes
+
 
 [BASIC]
 
