@@ -6,11 +6,24 @@ from apps.movie_quotes.domain.usecases.SearchByQuoteUsecase import SearchByQuote
 from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo
 from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo
 
+# === Класс представления, реализующий get-запросы для получения результата поиска фильмов по цитате ===
 
 class SearchByQuoteView(APIView):
+    """
+    **get** - запрос для получения результатов поиска фильмов по цитате
+    """
     def get(self, request):
+        # **Возвращаемый результат**
         try:
             quote = request.data['quote']
+            """
+            Отсутствие цитаты для поиска (некорректный запрос):
+            
+            - код 400
+            
+            - текст ошибки
+            
+            """
         except KeyError:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
@@ -25,6 +38,14 @@ class SearchByQuoteView(APIView):
 
         result = search_usecase.execute()
 
+        """
+        Успешный поиск фильмов по цитате:
+            
+        - код 200
+            
+        - словарь с данными о найденных фильмах
+            
+        """
         return Response(
             status=status.HTTP_200_OK,
             data=[match.to_dict() for match in result]

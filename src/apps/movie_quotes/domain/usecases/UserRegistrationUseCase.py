@@ -3,6 +3,7 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 
 from apps.movie_quotes.domain.authorizer import Authorizer
 
+# === Класс, реализующий логику регистрации пользователя ===
 
 class UserRegistrationUseCase:
     def __init__(self, user_profile_repo: UserProfileRepo,
@@ -15,7 +16,7 @@ class UserRegistrationUseCase:
         self._email = email
         self._password = password
 
-
+    # **execute** - воспроизведение сценария
     def execute(self) -> dict:
         if self._user_profile_repo.find_by_username(self._username) is not None:
             raise UserAlreadyExists(f"username {self._username}")

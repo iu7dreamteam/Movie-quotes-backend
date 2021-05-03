@@ -33,7 +33,7 @@ load-plugins=
 # can either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
-disable=W0403,W0232,E1101,C0111,django-not-configured,wrong-import-order,imported-auth-user,new-db-field-with-default,useless-object-inheritance,redefined-builtin,no-self-use,import-outside-toplevel,inconsistent-return-statements,no-name-in-module,import-error,unused-import
+disable=W0403,W0232,E1101,C0111,django-not-configured,wrong-import-order,imported-auth-user,new-db-field-with-default,useless-object-inheritance,redefined-builtin,no-self-use,import-outside-toplevel,inconsistent-return-statements,no-name-in-module,import-error,unused-import,pointless-string-statement
 
 [REPORTS]
 

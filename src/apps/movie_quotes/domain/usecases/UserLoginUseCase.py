@@ -3,6 +3,7 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 
 from apps.movie_quotes.domain.authorizer import Authorizer
 
+# === Класс, реализующий логику авторизации пользователя ===
 
 class UserLoginUseCase:
     def __init__(self, user_profile_repo: UserProfileRepo,
@@ -14,7 +15,7 @@ class UserLoginUseCase:
         self._email = email
         self._password = password
 
-
+    # **execute** - воспроизведение сценария
     def execute(self) -> dict:
         user_profile = self._user_profile_repo.find_by_email(self._email)
         if user_profile is None:

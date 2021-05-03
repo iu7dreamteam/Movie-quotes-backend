@@ -13,8 +13,10 @@ from django.contrib.auth.models import User
 
 from typing import List
 
+# === Класс репозиторий истории пользователя ===
 
 class MatchRepo:
+    # **save** - сохранение истории в БД
     def save(self, match: Match) -> Match:
         """
         Saves given match object if it exists in database,
@@ -34,9 +36,11 @@ class MatchRepo:
 
         return saved_match
 
+    # **get** - получение истории по идентификатору истории
     def get(self, id) -> Match:
         return self.Mapper.to_domain(MatchORM.objects.get(pk=id))
 
+    # **filter_by_user** - фильтрация историй по профилю пользователя
     def filter_by_user(self, user_profile: UserProfile) -> List[Match]:
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
         query = MatchORM.objects.filter(user_profile=user_profile_orm)
@@ -48,6 +52,7 @@ class MatchRepo:
 
         return result_query
 
+    # **filter_by_movie_and_user** - фильтрация историй по фильму и пользователю
     def filter_by_movie_and_user(self, movie: Movie, user_profile: UserProfile) -> List[Match]:
         movie_orm = MovieRepo().Mapper.from_domain(movie)
         user_profile_orm = UserProfileRepo().Mapper.from_domain(user_profile)
@@ -60,6 +65,7 @@ class MatchRepo:
 
         return result_query
 
+    # **_create** - создание записи об истории пользователя
     def _create(self, match: Match) -> Match:
         if match.user_profile is None:
             raise NoUserDefinedForMatch()
@@ -83,6 +89,8 @@ class MatchRepo:
 
         return self.Mapper.to_domain(created_match)
 
+
+    # === Класс переконвертации из/в модель БД ===
 
     class Mapper:
         @staticmethod

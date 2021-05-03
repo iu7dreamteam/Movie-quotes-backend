@@ -16,11 +16,19 @@ before_script:
 install:
   - pip3 install -r requirements.txt
 
+before_deploy:
+  - cd ..
+  - chmod +x generate_docs.sh
+  - ./generate_docs.sh
+  - sudo apt-get install zip
+  - zip -r docs.zip docs
+
 jobs:
   include:
     - stage: "Build"
       name: "Building app"
-      script: python3 manage.py migrate
+      script:
+        - python3 manage.py migrate
     - stage: "Linter"
       name: "Running linter"
       script: ./run_linter.sh
@@ -42,3 +50,14 @@ jobs:
     - stage: "Tests"
       name: "End to end"
       script: echo 0
+    - stage: "Documentation"
+      name: "Documentation"
+      script: skip
+      deploy:
+        provider: releases
+        api_key: $token
+        file: docs.zip
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true

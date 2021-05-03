@@ -1,11 +1,23 @@
 from typing import List
 
+# === Модель бизнес-логики для описания субтитра ===
 
 class UserProfile(object):
     def __init__(self, id=None, username='', email=''):
         self._id = id
         self._username = username
         self._email = email
+
+    """
+    Поля Movie:
+    
+    - id - идентификатор субтитра
+    
+    - username - имя пользователя
+    
+    - email - почта пользователя
+    
+    """
 
     @property
     def id(self):

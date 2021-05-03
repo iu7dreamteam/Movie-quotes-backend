@@ -11,3 +11,4 @@ testfixtures==6.17.1
 Unidecode==1.2.0
 pylint==2.7.0
 pylint_django==2.3.0
+Pycco==0.6.0

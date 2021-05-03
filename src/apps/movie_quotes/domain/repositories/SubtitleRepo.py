@@ -7,8 +7,10 @@ from typing import List
 
 from django.core.exceptions import ObjectDoesNotExist
 
+# === Класс репозиторий субтитров ===
 
 class SubtitleRepo:
+    # **save** - сохранение субтитра в БД
     def save(self, subtitle: Subtitle) -> Subtitle:
         if subtitle.id is None:
             saved_subtitle = self._create(subtitle)
@@ -32,14 +34,17 @@ class SubtitleRepo:
 
         return saved_subtitle
 
+    # **delete** - удаление субтитра по идентификатору субтитра
     def delete(self, id):
         subtitle_orm = SubtitleORM.objects.get(id = id)
         subtitle_orm.delete()
 
+    # **get** - получение субтитра по идентификатору субтитра
     def get(self, id) -> Subtitle:
         subtitle_orm = SubtitleORM.objects.get(id = id)
         return self.Mapper.to_domain(subtitle_orm)
 
+    # **find_by_quote** - нахождение субтитров по цитате
     def find_by_quote(self, quote: str) -> List[Subtitle]:
         subtitles_orm = SubtitleORM.objects.filter(quote__icontains=quote)
 
@@ -50,6 +55,7 @@ class SubtitleRepo:
 
         return subtitles
 
+    # **find_by_quote_ordered_by_movie**  - нахождение субтитров по цитате и сортировка по фильмам
     def find_by_quote_ordered_by_movie(self, quote: str) -> List[Subtitle]:
         subtitles_orm = SubtitleORM.objects.filter(quote__icontains=quote)
         subtitles_orm.order_by('movie')
@@ -61,6 +67,7 @@ class SubtitleRepo:
 
         return subtitles
 
+    # **_create** - создание субтитра
     def _create(self, subtitle: Subtitle) -> Subtitle:
         movie = MovieRepo().save(subtitle.movie)
 
@@ -73,6 +80,7 @@ class SubtitleRepo:
 
         return self.Mapper.to_domain(subtitle_orm)
 
+    # === Класс переконвертации из/в модель БД ===
 
     class Mapper:
         @staticmethod

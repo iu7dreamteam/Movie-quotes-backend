@@ -1,3 +1,5 @@
+# === Модель бизнес-логики для описания фильма ===
+
 class Movie(object):
     def __init__(self, id = None, title = '', year = 0, director = '', poster_url = '', video_url = ''):
         self._id = id
@@ -6,6 +8,23 @@ class Movie(object):
         self._director = director
         self._poster_url = poster_url
         self._video_url = video_url
+
+    """
+    Поля Movie:
+    
+    - id - идентификатор фильма
+    
+    - title - название фильма
+    
+    - year - год выпуска фильма
+    
+    - director - имя режиссера
+    
+    - poster_url - путь к постеру фильма
+    
+    - video_url - путь к фильму
+    
+    """
 
     @property
     def id(self):
@@ -55,6 +74,7 @@ class Movie(object):
     def video_url(self, video_url):
         self._video_url = video_url
 
+    # Метод переконвертации объекта Movie в словарь
     def to_dict(self):
         data = {}
         data["id"] = str(self._id)
