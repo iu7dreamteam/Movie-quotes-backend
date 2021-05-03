@@ -109,13 +109,10 @@ notes=FIXME,XXX,TODO
 min-similarity-lines=4
 
 # Ignore comments when computing similarities.
-ignore-comments=yes
+ignore-comments=no
 
 # Ignore docstrings when computing similarities.
 ignore-docstrings=yes
-
-# Ignore imports when computing similarities.
-ignore-imports=yes
 
 
 [BASIC]
