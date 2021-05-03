@@ -12,20 +12,20 @@ class Command(BaseCommand):
     help = 'Populates the database for movie quotes application'
 
     def handle(self, *args, **options):
-        movie_orm_LOTR = MovieORM.objects.create(
+        movie_orm_lotr = MovieORM.objects.create(
             title='Lord of the Rings',
             year=2001,
             director='Peter Jackson',
             poster_url='https://someurl.ru',
             video_url='http://videourl.com'
         )
-        movie_LOTR = MovieRepo().save(movie_orm_LOTR)
+        movie_lotr = MovieRepo().save(movie_orm_lotr)
 
         # parse subtitles
         subtitle_repo = SubtitleRepo()
-        subtitles_LOTR = SubtitleParser.parse('./apps/movie_quotes/management/commands/res/LOTR.ru.srt')
-        for sub in subtitles_LOTR:
-            sub.movie = movie_LOTR
+        subtitles_lotr = SubtitleParser.parse('./apps/movie_quotes/management/commands/res/LOTR.ru.srt')
+        for sub in subtitles_lotr:
+            sub.movie = movie_lotr
             subtitle_repo.save(sub)
 
-        self.stdout.write(f'Added {len(subtitles_LOTR)} subtitles for movie {movie_LOTR.title}')
+        self.stdout.write(f'Added {len(subtitles_lotr)} subtitles for movie {movie_lotr.title}')
