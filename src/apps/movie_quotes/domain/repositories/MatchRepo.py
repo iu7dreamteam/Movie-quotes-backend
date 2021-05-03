@@ -93,7 +93,7 @@ class MatchRepo:
             for sub in match_orm.subtitles.all().order_by('-id'):
                 subtitles_domain.append(SubtitleRepo.Mapper.to_domain(sub))
 
-            user_profile = UserProfileRepo().get(match_orm.user_profile.id)
+            user_profile = UserProfileRepo().get(match_orm.user_profile.user.id)
 
             match_domain = Match(
                 id=match_orm.id,
