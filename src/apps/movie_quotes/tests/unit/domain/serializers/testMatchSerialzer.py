@@ -33,6 +33,7 @@ class TestMatchSerializer(TestCase):
         cls.sub_2 = SubtitleRepo().get(subtitle_orm2.id)
 
         cls.match = Match(
+            quote='test quote',
             movie=cls.movie_1,
             subtitles=[cls.sub_1, cls.sub_2]
         )
@@ -42,7 +43,7 @@ class TestMatchSerializer(TestCase):
 
     def test__serialize_match(self):
         # Arrange
-        expected_json = '{"movie": {"id": "1", "title": "bomonka1", \
+        expected_json = '{"quote": "test quote", "movie": {"id": "1", "title": "bomonka1", \
 "year": "2001", "director": "me", \
 "poster": "https://bmstu.ru", "url": "https://bmstu.ru/poster.png"}, \
 "quotes": [{"id": "1", "quote": "Monday is a bad day!!!", "time": "00:00:37.673000"}, \
