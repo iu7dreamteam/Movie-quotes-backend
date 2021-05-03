@@ -53,8 +53,7 @@ jobs:
     - stage: "Tests"
       name: "End to end"
       script: echo 0
-    - stage: "Documentation"
-      name: "Documentation"
+    - stage: deploy
       deploy:
         provider: releases
         api_key: $token
