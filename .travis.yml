@@ -11,6 +11,7 @@ before_script:
   - psql -c 'create database db_movies_quotes;' -U postgres
   - cd src
   - chmod +x run_linter.sh
+  - python3 manage.py makemigrations
 
 install:
   - pip3 install -r requirements.txt
@@ -31,7 +32,6 @@ jobs:
     - stage: "Build"
       name: "Building app"
       script:
-        - python3 manage.py makemigrations
         - python3 manage.py migrate
     - stage: "Linter"
       name: "Running linter"
@@ -39,7 +39,6 @@ jobs:
     - stage: "Tests"
       name: "Unit"
       script:
-        - python3 manage.py makemigrations
         - python3 manage.py test apps/movie_quotes/tests/unit/domain/entities
         - python3 manage.py test apps/movie_quotes/tests/unit/domain/serializers
         - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
@@ -57,6 +56,7 @@ jobs:
       script: echo 0
     - stage: "Documentation"
       name: "Documentation"
+      script: skip
       deploy:
         provider: releases
         api_key: $token
