@@ -7,11 +7,24 @@ from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRep
 from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo
 from apps.movie_quotes.domain.usecases.ShowUserHistoryUsecase import ShowUserHistoryUsecase
 
+# === Класс представления, реализующий get-запросы для получения истории поиска пользователя ===
 
 class MatchHistoryView(APIView):
+    """
+    **get** - запрос для получения истории пользователя
+    """
     def get(self, request, username):
         user_profile = UserProfileRepo().find_by_username(username)
+        # **Возвращаемый результат**
         if user_profile is None:
+            """
+            Отсутствие пользователя с заданными данными:
+            
+            - код 404
+            
+            - текст ошибки
+            
+            """
             return Response(
                 status=status.HTTP_404_NOT_FOUND,
                 data='Пользователь не найден'
@@ -27,6 +40,14 @@ class MatchHistoryView(APIView):
 
         history_dict = [match.to_dict() for match in history]
 
+        """
+        Успешное получение истории:
+            
+        - код 200
+            
+        - словарь с данными о просмотренных фильмах и цитатах
+            
+        """
         return Response(
             status=status.HTTP_200_OK,
             data=history_dict
