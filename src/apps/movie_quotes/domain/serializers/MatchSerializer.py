@@ -20,14 +20,19 @@ class MatchSerializer:
         movie_serializer = MovieSerializer()
         subtitle_serializer = SubtitleSerializer()
 
-        movie = movie_serializer.deserialize(dictionary['movie'])
+        movie = {
+            'id': dictionary['movie_id']
+        }
+
+        movie = movie_serializer.deserialize(movie)
 
         subtitles = []
-        for sub in dictionary['quotes']:
+        for sub in dictionary['subtitles']:
             subtitle_entity = subtitle_serializer.deserealize(sub)
             subtitles.append(subtitle_entity)
 
         match = Match(
+            quote=dictionary['quote'],
             movie=movie,
             subtitles=subtitles
         )
