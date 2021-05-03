@@ -51,7 +51,7 @@ before_deploy:
   - cd ..
   - chmod +x generate_docs.sh
   - ./generate_docs.sh
-  - apt-get install zip
+  - sudo apt-get install zip
   - zip -r docs.zip docs
 deploy:
   provider: releases
