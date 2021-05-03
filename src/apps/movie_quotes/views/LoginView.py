@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRepo
 from apps.movie_quotes.infrastructure.django.TokenAuthorizer import TokenAuthorizer
 
-from apps.movie_quotes.domain.usecases.UserLoginUseCase import UserLoginUseCase, IncorrectPassword
+from apps.movie_quotes.domain.usecases.UserLoginUseCase import UserLoginUseCase, IncorrectPassword, UserDoesNotExists
 
 
 class LoginView(APIView):
@@ -35,7 +35,7 @@ class LoginView(APIView):
             )
             response.set_cookie(key='token', value=result['token'])
 
-        except IncorrectPassword:
+        except (IncorrectPassword, UserDoesNotExists):
             response = Response(
                 status=status.HTTP_401_UNAUTHORIZED,
                 data='Не существует пользователя с такой почтой или паролем'

@@ -18,6 +18,8 @@ from django.urls import path
 
 from apps.movie_quotes.views.LoginView import LoginView
 from apps.movie_quotes.views.RegistrationView import RegistrationView
+from apps.movie_quotes.views.MatchHistoryView import MatchHistoryView
+from apps.movie_quotes.views.SearchByQuoteView import SearchByQuoteView
 
 
 urlpatterns = [
@@ -25,4 +27,8 @@ urlpatterns = [
 
     path('session/login/', LoginView.as_view()),
     path('session/registration/', RegistrationView.as_view()),
+
+    path('movies/quote/', SearchByQuoteView.as_view()),
+
+    path('user/<slug:username>', MatchHistoryView.as_view())
 ]
