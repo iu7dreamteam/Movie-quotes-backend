@@ -7,13 +7,13 @@ from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo
 from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRepo
 
 from apps.movie_quotes.infrastructure.django.models.MatchORM import MatchORM
+from apps.movie_quotes.utility.helpers import set_if_not_none
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 
 from typing import List
 
-from apps.movie_quotes.utility.helpers import set_if_not_none
 
 # === Класс репозиторий истории пользователя ===
 
@@ -35,7 +35,7 @@ class MatchRepo:
                     sub = subtitle_repo.save(sub)
 
                 match_orm = MatchORM.objects.get(pk=match.id)
-                match_orm.quote = set_if_not_none(match.quote)
+                match_orm.quote = set_if_not_none(match_orm.quote, match.quote)
                 match_orm.save()
             else:
                 saved_match = self._create(match)
