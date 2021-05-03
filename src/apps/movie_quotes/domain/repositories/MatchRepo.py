@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 
 from typing import List
 
+from apps.movie_quotes.utility.helpers import set_if_not_none
+
 # === Класс репозиторий истории пользователя ===
 
 class MatchRepo:
@@ -31,6 +33,10 @@ class MatchRepo:
                 subtitle_repo = SubtitleRepo()
                 for sub in match.subtitles:
                     sub = subtitle_repo.save(sub)
+
+                match_orm = MatchORM.objects.get(pk=match.id)
+                match_orm.quote = set_if_not_none(match.quote)
+                match_orm.save()
             else:
                 saved_match = self._create(match)
 
@@ -80,6 +86,7 @@ class MatchRepo:
         user_profile_orm = UserProfileRepo.Mapper.from_domain(match.user_profile)
 
         created_match = MatchORM.objects.create(
+            quote=match.quote,
             user_profile=user_profile_orm,
             movie=movie_orm
         )
@@ -105,6 +112,7 @@ class MatchRepo:
 
             match_domain = Match(
                 id=match_orm.id,
+                quote=match_orm.quote,
                 user_profile=user_profile,
                 movie=movie_domain,
                 subtitles=subtitles_domain
@@ -124,5 +132,5 @@ class MatchRepo:
 
 class NoUserDefinedForMatch(Exception):
     def __init__(self, message=''):
-        super().__init__("Can't save match in the database \
-                          without user_profile link" + message)
+        super().__init__("Can't save match in the database "
+                         "without user_profile link" + message)
