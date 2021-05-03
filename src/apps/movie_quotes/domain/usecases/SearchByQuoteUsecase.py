@@ -3,6 +3,7 @@ from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo
 
 from typing import List
 
+# === Класс, реализующий логику сценария поиска субтитров по цитате ===
 
 class SearchByQuoteUsecase:
     def __init__(self, match_repo, subtitle_repo, quote: str):
@@ -10,6 +11,7 @@ class SearchByQuoteUsecase:
         self._subtitle_repo = subtitle_repo
         self._quote = quote
 
+    # **execute** - воспроизведение сценария
     def execute(self) -> List[Match]:
         subtitles = self._subtitle_repo.find_by_quote_ordered_by_movie(self._quote)
         if len(subtitles) == 0:
@@ -19,6 +21,7 @@ class SearchByQuoteUsecase:
 
         return matches
 
+    # **_pack_subtitles_into_matches** - упаковка найденных субтитров в экземпляры Match для сохранения истории
     def _pack_subtitles_into_matches(self, subtitles) -> List[Match]:
         result_matches = []
 

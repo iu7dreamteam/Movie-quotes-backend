@@ -1,6 +1,7 @@
 from apps.movie_quotes.domain.entities.Movie import Movie
 from apps.movie_quotes.domain.entities.Subtitle import Subtitle
 
+# === Модель бизнес-логики для хранения пользовательской истории ===
 
 class Match(object):
     def __init__(self, id=None, user_profile=None, movie=None, subtitles=None):
@@ -8,6 +9,19 @@ class Match(object):
         self._user_profile = user_profile
         self._movie = movie
         self._subtitles = subtitles
+
+    """
+    Поля Match:
+    
+    - id - идентификатор истории пользователя
+    
+    - user_profile - профиль пользователя
+    
+    - movie - фильм, просмотренный пользователем
+    
+    - subtitles - субтитры, относящиеся к фильму
+    
+    """
 
     @property
     def id(self):
@@ -42,6 +56,7 @@ class Match(object):
     def subtitles(self, subtitles):
         self._subtitles = subtitles
 
+    # Метод добавления субтитра в массив субтитров
     def append_subtitle(self, subtitle: Subtitle):
         if subtitle.movie.id != self.movie.id:
             raise DifferentMoviesInsertionError(
@@ -50,6 +65,7 @@ class Match(object):
 
         self.subtitles.append(subtitle)
 
+    # Метод конвертации объекта Match в словарь
     def to_dict(self):
         data = {}
         data["movie"] = self.movie.to_dict()

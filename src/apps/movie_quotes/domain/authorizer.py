@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 
 from apps.movie_quotes.domain.entities.UserProfile import UserProfile
 
+# === Абстрактный класс для авторизации пользователя ===
 
 class Authorizer(ABC):
     @abstractmethod

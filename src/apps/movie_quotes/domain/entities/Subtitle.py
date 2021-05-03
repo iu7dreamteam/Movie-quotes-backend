@@ -1,5 +1,7 @@
 from apps.movie_quotes.domain.entities.Movie import Movie
 
+# === Модель бизнес-логики для описания субтитра ===
+
 class Subtitle(object):
     def __init__(self, id = None, quote = '', start_time = None, end_time = None, movie = None):
         self._id = id
@@ -7,6 +9,21 @@ class Subtitle(object):
         self._start_time = start_time
         self._end_time = end_time
         self._movie = movie
+
+    """
+    Поля Movie:
+    
+    - id - идентификатор субтитра
+    
+    - quote - цитата
+    
+    - start_time - время, когда цитата начинается в фильме
+    
+    - end_time - время, когда цитата начинается в фильме
+    
+    - movie - фильм, к которому относится цитата
+    
+    """
 
     @property
     def id(self):
@@ -48,6 +65,7 @@ class Subtitle(object):
     def movie(self, movie):
         self._movie = movie
 
+    # Метод переконвертации объекта Subtitle в словарь
     def to_dict(self):
         return {
             "id": str(self.id),

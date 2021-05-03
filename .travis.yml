@@ -42,3 +42,20 @@ jobs:
     - stage: "Tests"
       name: "End to end"
       script: echo 0
+
+before_deploy:
+  - git config --local user.name $USER_NAME
+  - git config --local user.email $USER_EMAIL
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+  - pip3 install Pycco==0.6.0
+  - chmod +x generate_docs.sh
+  - ./generate_docs.sh
+  - apt-get install zip
+  - zip -r docs.zip docs
+deploy:
+  provider: releases
+  api_key: $token
+  file: docs.zip
+  skip_cleanup: true
+  overwrite: true

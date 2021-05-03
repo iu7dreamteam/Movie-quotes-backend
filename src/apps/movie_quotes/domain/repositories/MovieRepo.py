@@ -4,8 +4,10 @@ from apps.movie_quotes.utility.helpers import set_if_not_none
 
 from django.core.exceptions import ObjectDoesNotExist
 
+# === Класс репозиторий фильмов ===
 
 class MovieRepo:
+    # **save** - сохранение фильма в БД
     def save(self, movie: Movie) -> Movie:
         if movie.id is None:
             saved_movie = self._create(movie)
@@ -26,19 +28,23 @@ class MovieRepo:
 
         return saved_movie
 
+    # **get** - получение фильма по идентификатору фильма
     def get(self, id) -> Movie:
         movie_orm = MovieORM.objects.get(id = id)
         return self.Mapper.to_domain(movie_orm)
 
+    # **delete** - удаление фильма по идентификатору фильма
     def delete(self, id):
         movie_orm = MovieORM.objects.get(id = id)
         movie_orm.delete()
 
+    # **find_first** - нахождение первого фильма, удовлетворяющего условиям выборки
     def find_first(self, movie) -> MovieORM:
         return MovieORM.objects.all().filter(title = movie.title, director = movie.director,
                                              year = movie.year, poster_url = movie.poster_url,
                                              video_url = movie.video_url).first()
 
+    # **_create** - создание фильма
     def _create(self, movie: Movie) -> Movie:
         movie_orm = MovieORM.objects.create(
             title=movie.title,
@@ -49,6 +55,8 @@ class MovieRepo:
         )
 
         return self.Mapper.to_domain(movie_orm)
+
+    # === Класс переконвертации из/в модель БД ===
 
     class Mapper:
         @staticmethod

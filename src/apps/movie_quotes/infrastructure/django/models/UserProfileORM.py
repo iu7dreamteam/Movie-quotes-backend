@@ -6,21 +6,27 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+# === Модель (таблица) пользователя ===
 
 class UserProfileORM(models.Model):
     class Meta:
         app_label = 'movie_quotes'
 
+    """
+    Модель UserProfileORM является расширением встроенной моделм пользоваьеля Django
+    """
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
+# Создание профиля пользователя
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs): #pylint: disable=unused-argument
     if created:
         UserProfileORM.objects.create(user=instance)
 
 
-# Authentification
+# Authentification - аутентификация пользователя
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs): #pylint: disable=unused-argument
     if created:
