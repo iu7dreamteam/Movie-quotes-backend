@@ -17,10 +17,6 @@ install:
   - pip3 install -r requirements.txt
 
 before_deploy:
-  - git config --local user.name $USER_NAME
-  - git config --local user.email $USER_EMAIL
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
   - cd ..
   - chmod +x generate_docs.sh
   - ./generate_docs.sh
@@ -56,7 +52,11 @@ jobs:
       script: echo 0
     - stage: "Documentation"
       name: "Documentation"
-      script: skip
+      script:
+        - git config --local user.name $USER_NAME
+        - git config --local user.email $USER_EMAIL
+        - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+        - git tag $TRAVIS_TAG
       deploy:
         provider: releases
         api_key: $token
