@@ -27,11 +27,11 @@ class Match(object):
     """
 
     @property
-    def id(self):
+    def id(self):           # pylint:disable=duplicate-code
         return self._id
 
     @property
-    def quote(self):
+    def quote(self):        # pylint:disable=duplicate-code
         return self._quote
 
     @property
@@ -51,11 +51,11 @@ class Match(object):
     def user_profile(self, user_profile):
         self._user_profile = user_profile
 
-    @id.setter
+    @id.setter              # pylint:disable=duplicate-code
     def id(self, id):
         self._id = id
 
-    @quote.setter
+    @quote.setter           # pylint:disable=duplicate-code
     def quote(self, quote):
         self._quote = quote
 
