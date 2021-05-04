@@ -20,7 +20,6 @@ from apps.movie_quotes.views.LoginView import LoginView
 from apps.movie_quotes.views.RegistrationView import RegistrationView
 from apps.movie_quotes.views.MatchHistoryView import MatchHistoryView
 from apps.movie_quotes.views.SearchByQuoteView import SearchByQuoteView
-from apps.movie_quotes.views.UpdateHistoryView import UpdateHistoryView
 
 
 urlpatterns = [
@@ -30,7 +29,6 @@ urlpatterns = [
     path('session/registration/', RegistrationView.as_view()),
 
     path('movies/quote/', SearchByQuoteView.as_view()),
-    path('movies/update-history/', UpdateHistoryView.as_view()),
 
     path('user/<slug:username>/', MatchHistoryView.as_view())
 ]
