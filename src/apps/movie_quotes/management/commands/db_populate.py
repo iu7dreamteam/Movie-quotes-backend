@@ -1,11 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from apps.movie_quotes.utility.subtitle_parser import SubtitleParser
 
-from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo, MatchORM, Match
 from apps.movie_quotes.domain.repositories.MovieRepo import MovieRepo, MovieORM, Movie
-from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo, SubtitleORM, Subtitle
-from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRepo, UserProfileORM, UserProfile, User
+from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo, Subtitle
 
 import os
 

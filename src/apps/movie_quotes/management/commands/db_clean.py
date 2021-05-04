@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from apps.movie_quotes.infrastructure.django.models.UserProfileORM import User, UserProfileORM
 from apps.movie_quotes.infrastructure.django.models.MovieORM import MovieORM
