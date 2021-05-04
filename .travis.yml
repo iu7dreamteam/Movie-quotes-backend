@@ -42,10 +42,12 @@ jobs:
         - python3 manage.py test apps/movie_quotes/tests/unit/utility
     - stage: "Tests"
       name: "Integration"
+      script:
         - python3 manage.py test apps/movie_quotes/tests/integration/domain/serializers
         - python3 manage.py test apps/movie_quotes/tests/integration/domain/usecases
     - stage: "Tests"
       name: "End to end"
+      script:
         - python3 manage.py test apps/movie_quotes/tests/e2e
     - stage: "Documentation"
       name: "Documentation"
