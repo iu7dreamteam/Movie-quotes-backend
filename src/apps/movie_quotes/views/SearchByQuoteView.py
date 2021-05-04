@@ -16,19 +16,23 @@ class SearchByQuoteView(APIView):
         # **Возвращаемый результат**
         try:
             quote = request.data['quote']
-            """
-            Отсутствие цитаты для поиска (некорректный запрос):
-            
-            - код 400
-            
-            - текст ошибки
-            
-            """
         except KeyError:
-            return Response(
-                status=status.HTTP_400_BAD_REQUEST,
-                data='Не обнаружено цитаты для поиска'
-            )
+            
+            try:
+                quote = request.query_params['quote']
+            except KeyError:
+                """
+                Отсутствие цитаты для поиска (некорректный запрос):
+                
+                - код 400
+                
+                - текст ошибки
+                
+                """
+                return Response(
+                    status=status.HTTP_400_BAD_REQUEST,
+                    data='Не обнаружено цитаты для поиска'
+                )
 
         search_usecase = SearchByQuoteUsecase(
             MatchRepo(),

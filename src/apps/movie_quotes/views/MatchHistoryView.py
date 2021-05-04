@@ -76,9 +76,10 @@ class MatchHistoryView(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         try:
+            data = dict(request.data)
             movie_id = request.data['movie_id']
             quote = request.data['quote']
-            subtitles = request.data['subtitles']
+            subtitle_ids = data['subtitle_ids']
         except KeyError:
             """
             Невалидные данные о структуре Match, присланные клиентом
@@ -93,7 +94,8 @@ class MatchHistoryView(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         subtitle_repo = SubtitleRepo()
-        subtitle_ids = [sub['id'] for sub in subtitles ]
+        
+        subtitle_ids = [int(sub_id) for sub_id in subtitle_ids]
 
         movie = MovieRepo().get(movie_id)
         subtitles = [subtitle_repo.get(id) for id in subtitle_ids]
