@@ -5,6 +5,7 @@ from apps.movie_quotes.domain.entities.Match import Match
 from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo, MatchORM
 from apps.movie_quotes.domain.repositories.MovieRepo import MovieRepo, MovieORM
 from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo, SubtitleORM
+from apps.movie_quotes.domain.repositories.UserProfileRepo import UserProfileRepo, UserProfile, User
 
 from testfixtures import compare
 
@@ -38,6 +39,9 @@ class TestMatchSerializer(TestCase):
             subtitles=[cls.sub_1, cls.sub_2]
         )
 
+        user_orm = User.objects.create(username='testuser', email='test@mail.ru', password='123')
+        cls.user_profile = UserProfileRepo().get(user_orm.id)
+
     def setUp(self):
         pass
 
@@ -55,3 +59,21 @@ class TestMatchSerializer(TestCase):
 
         # Assert
         compare(expected_json, actual_json)
+
+
+    def test__deserialize_match(self):
+        # Arrange
+        expected_match = Match(quote='Monday', movie=self.movie_1, subtitles=[self.sub_1, self.sub_2])
+
+        match_json = f'{{"quote": "Monday", "movie_id": "{self.movie_1.id}", "subtitles": [\
+{{ "id": "{self.sub_1.id}" }}, {{ "id": "{self.sub_2.id}" }} ]}}'
+
+        # Act
+        match_serializer = MatchSerializer()
+        actual_match = match_serializer.deserialize(match_json)
+
+        actual_match.movie = MovieRepo().get(actual_match.movie.id)
+        actual_match.subtitles = [SubtitleRepo().get(sub.id) for sub in actual_match.subtitles]
+
+        # Assert
+        compare(expected_match, actual_match)

@@ -30,5 +30,5 @@ urlpatterns = [
 
     path('movies/quote/', SearchByQuoteView.as_view()),
 
-    path('user/<slug:username>', MatchHistoryView.as_view())
+    path('user/<slug:username>/', MatchHistoryView.as_view())
 ]
