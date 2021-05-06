@@ -10,9 +10,9 @@ from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo
 
 class SearchByQuoteView(APIView):
     """
-    **get** - запрос для получения результатов поиска фильмов по цитате
+    **post** - запрос для получения результатов поиска фильмов по цитате
     """
-    def get(self, request):
+    def post(self, request):
         # **Возвращаемый результат**
         try:
             quote = request.data['quote']
