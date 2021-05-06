@@ -6,7 +6,7 @@ from apps.movie_quotes.domain.usecases.SearchByQuoteUsecase import SearchByQuote
 from apps.movie_quotes.domain.repositories.MatchRepo import MatchRepo
 from apps.movie_quotes.domain.repositories.SubtitleRepo import SubtitleRepo
 
-# === Класс представления, реализующий get-запросы для получения результата поиска фильмов по цитате ===
+# === Класс представления, реализующий post-запросы для получения результата поиска фильмов по цитате ===
 
 class SearchByQuoteView(APIView):
     """
