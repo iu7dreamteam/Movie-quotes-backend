@@ -72,7 +72,7 @@ class TestSearchWithoutAuthentication(TransactionTestCase):
         }
 
         # Act
-        resp = self.client.get('/api/v0/movies/quote/', request_data, format='json')
+        resp = self.client.post('/api/v0/movies/quote/', request_data, format='json')
 
         # Assert
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

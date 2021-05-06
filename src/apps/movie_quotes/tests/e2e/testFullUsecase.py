@@ -140,7 +140,7 @@ class TestFullUsecase(TransactionTestCase):
         }
 
         # Act
-        response = self.client.get('/api/v0/movies/quote/', request_data)
+        response = self.client.post('/api/v0/movies/quote/', request_data)
 
         # Assert
         self.assertEqual(expected_response_status, response.status_code)
