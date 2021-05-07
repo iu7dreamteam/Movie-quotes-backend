@@ -32,41 +32,41 @@ before_deploy:
 
 jobs:
   include:
-    - stage: "Build"
-      name: "Building app"
-      script:
-        - python3 manage.py migrate
-    - stage: "Linter"
-      name: "Running linter"
-      script: ./run_linter.sh
-    - stage: "Tests"
-      name: "Unit"
-      script:
-        - python3 manage.py test apps/movie_quotes/tests/unit/domain/entities
-        - python3 manage.py test apps/movie_quotes/tests/unit/domain/serializers
-        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
-        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
-        - python3 manage.py test apps/movie_quotes/tests/unit/utility
-    - stage: "Tests"
-      name: "Integration"
-      script:
-        - python3 manage.py test apps/movie_quotes/tests/integration/domain/serializers
-        - python3 manage.py test apps/movie_quotes/tests/integration/domain/usecases
-    - stage: "Tests"
-      name: "End to end"
-      script:
-        - python3 manage.py test apps/movie_quotes/tests/e2e
-    - stage: "Documentation"
-      name: "Documentation"
-      script: skip
-      deploy:
-        provider: releases
-        api_key: $token
-        file: docs.zip
-        skip_cleanup: true
-        overwrite: true
-        on:
-          tags: true
+#    - stage: "Build"
+#      name: "Building app"
+#      script:
+#        - python3 manage.py migrate
+#    - stage: "Linter"
+#      name: "Running linter"
+#      script: ./run_linter.sh
+#    - stage: "Tests"
+#      name: "Unit"
+#      script:
+#        - python3 manage.py test apps/movie_quotes/tests/unit/domain/entities
+#        - python3 manage.py test apps/movie_quotes/tests/unit/domain/serializers
+#        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
+#        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
+#        - python3 manage.py test apps/movie_quotes/tests/unit/utility
+#    - stage: "Tests"
+#      name: "Integration"
+#      script:
+#        - python3 manage.py test apps/movie_quotes/tests/integration/domain/serializers
+#        - python3 manage.py test apps/movie_quotes/tests/integration/domain/usecases
+#    - stage: "Tests"
+#      name: "End to end"
+#      script:
+#        - python3 manage.py test apps/movie_quotes/tests/e2e
+#    - stage: "Documentation"
+#      name: "Documentation"
+#      script: skip
+#      deploy:
+#        provider: releases
+#        api_key: $token
+#        file: docs.zip
+#        skip_cleanup: true
+#        overwrite: true
+#        on:
+#          tags: true
     - stage: "Deploy"
       name: "Deploy if release"
       skript: skip
@@ -76,6 +76,8 @@ jobs:
           - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
           - docker build -t sansanchezzz/movie-quotes:latest .
           - docker push sansanchezzz/movie-quotes:latest
+          - scp docker-compose.yml root@167.99.214.209:/root/backend
+          - ssh root@167.99.214.209 < run.sh
         skip_cleanup: true
         on:
           branch: release/0.1.1
