@@ -72,7 +72,7 @@ jobs:
       skript: skip
       deploy:
         provider: script
-        script: echo -e "yes\n$SSH_PASSWORD\n" | scp docker-compose.yml root@167.99.214.209:/root/backend
+        script: scp docker-compose.yml root@167.99.214.209:/root/backend
 #        script: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin &&
 #          docker build -t sansanchezzz/movie-quotes:latest . &&
 #          docker push sansanchezzz/movie-quotes:latest &&
