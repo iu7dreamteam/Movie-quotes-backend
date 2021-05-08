@@ -1,0 +1,16 @@
+# Mac OS X
+.DS_store
+
+# python directories
+__pycache__/
+
+# environments
+.venv/
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# migrations
+src/apps/movie_quotes/infrastructure/django/migrations/*

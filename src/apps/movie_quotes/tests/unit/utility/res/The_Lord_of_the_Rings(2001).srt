@@ -1,0 +1,13 @@
+﻿
+1
+00:00:34,420 --> 00:00:37,506
+<i>The world is changed.</i>
+
+2
+00:00:37,673 --> 00:00:40,676
+<i>I feel it in the water.</i>
+
+3
+00:00:41,427 --> 00:00:44,346
+<i>I feel it in the earth.</i>
+

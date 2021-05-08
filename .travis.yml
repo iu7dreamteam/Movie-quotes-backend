@@ -1,0 +1,83 @@
+language: python
+services:
+  - postgresql
+python:
+  - "3.8"
+addons:
+  ssh_known_hosts:
+  - 167.99.214.209
+sudo: false
+before_script:
+  - touch .env
+  - echo SECRET_KEY=$SECRET_KEY >> .env
+  - echo DATABASE_URL=$CORRECT_DATABASE_URL >> .env
+  - echo DEBUG=off >> .env
+  - psql -c 'create database db_movies_quotes;' -U postgres
+  - cd src
+  - chmod +x run_linter.sh
+  - python3 manage.py makemigrations
+install:
+  - pip3 install -r requirements.txt
+before_deploy:
+  - cd ..
+  - chmod +x generate_docs.sh
+  - ./generate_docs.sh
+  - sudo apt-get install zip
+  - zip -r docs.zip docs
+  - mkdir .ssh
+  - openssl aes-256-cbc -K $encrypted_3f2dabfde256_key -iv $encrypted_3f2dabfde256_iv -in travis_key.enc -out .ssh/id_rsa -d
+  - openssl aes-256-cbc -K $encrypted_7be9aed6de09_key -iv $encrypted_7be9aed6de09_iv -in travis_key.pub.enc -out .ssh/id_rsa.pub -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 .ssh/id_rsa
+  - chmod 600 .ssh/id_rsa.pub
+  - ssh-add .ssh/id_rsa
+jobs:
+  include:
+    - stage: "Build"
+      name: "Building app"
+      script:
+        - python3 manage.py migrate
+    - stage: "Linter"
+      name: "Running linter"
+      script: ./run_linter.sh
+    - stage: "Tests"
+      name: "Unit"
+      script:
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/entities
+        - python3 manage.py test apps/movie_quotes/tests/unit/domain/serializers
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure
+        - python3 manage.py test apps/movie_quotes/tests/unit/infrastructure/repositories
+        - python3 manage.py test apps/movie_quotes/tests/unit/utility
+    - stage: "Tests"
+      name: "Integration"
+      script:
+        - python3 manage.py test apps/movie_quotes/tests/integration/domain/serializers
+        - python3 manage.py test apps/movie_quotes/tests/integration/domain/usecases
+    - stage: "Tests"
+      name: "End to end"
+      script:
+        - python3 manage.py test apps/movie_quotes/tests/e2e
+    - stage: "Documentation"
+      name: "Documentation"
+      script: skip
+      deploy:
+        provider: releases
+        api_key: $token
+        file: docs.zip
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
+    - stage: "Deploy"
+      name: "Deploy if release"
+      skript: skip
+      deploy:
+        provider: script
+        script: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin &&
+          docker build -t sansanchezzz/movie-quotes:latest . &&
+          docker push sansanchezzz/movie-quotes:latest &&
+          scp docker-compose.yml www-data@167.99.214.209:/var/www/movie-quotes.ru/api &&
+          ssh www-data@167.99.214.209 'bash -s' < ./deploy.sh
+        skip_cleanup: true
+        on:
+          branch: master
