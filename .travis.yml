@@ -3,6 +3,10 @@ services:
   - postgresql
 python:
   - "3.8"
+addons:
+  ssh_known_hosts:
+  - 167.99.214.209
+sudo: false
 before_script:
   - touch .env
   - echo SECRET_KEY=$SECRET_KEY >> .env
@@ -12,10 +16,8 @@ before_script:
   - cd src
   - chmod +x run_linter.sh
   - python3 manage.py makemigrations
-
 install:
   - pip3 install -r requirements.txt
-
 before_deploy:
   - cd ..
   - chmod +x generate_docs.sh
@@ -29,7 +31,6 @@ before_deploy:
   - chmod 600 .ssh/id_rsa
   - chmod 600 .ssh/id_rsa.pub
   - ssh-add .ssh/id_rsa
-
 jobs:
   include:
     - stage: "Build"
@@ -74,7 +75,9 @@ jobs:
         provider: script
         script: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin &&
           docker build -t sansanchezzz/movie-quotes:latest . &&
-          docker push sansanchezzz/movie-quotes:latest
+          docker push sansanchezzz/movie-quotes:latest &&
+          scp docker-compose.yml www-data@167.99.214.209:/var/www/movie-quotes.ru/api &&
+          ssh www-data@167.99.214.209 'bash -s' < ./deploy.sh
         skip_cleanup: true
         on:
           branch: release/0.1.1
