@@ -11,8 +11,9 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # pylint: disable-msg=C0103
         self.HOST = 'http://movie-quotes.ru'
-        self.STATIC_PATH = '/var/www/movie_quotes.ru/static/' 
+        self.STATIC_PATH = '/var/www/movie_quotes.ru/static/'
 
         self.movie_repo = MovieRepo()
         self.subtitle_repo = SubtitleRepo()
@@ -23,6 +24,7 @@ class Command(BaseCommand):
         self.add_forrest_gump_1994()
 
     def add_the_lord_of_the_rings_2001(self):
+        # pylint: disable-msg=C0103
         movie_the_lord_of_the_rings_2001 = Movie(
             title='The Lord of The Rings',
             year=2001,
