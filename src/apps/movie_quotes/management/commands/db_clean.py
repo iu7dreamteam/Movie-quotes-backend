@@ -7,11 +7,20 @@ from apps.movie_quotes.infrastructure.django.models.MatchORM import MatchORM
 
 
 class Command(BaseCommand):
-    help = "Removes all created records in the database for the movie quotes app"
+    help = "Removes records from the database"
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--rmusers',
+            action='store_true',
+            help='Delete all user data'
+        )
 
     def handle(self, *args, **options):
         MovieORM.objects.all().delete()
-        User.objects.all().delete()
+
+        if options['rmusers']:
+            User.objects.all().delete()
 
         movies_count = len(MovieORM.objects.all())
         subtitle_count = len(SubtitleORM.objects.all())
