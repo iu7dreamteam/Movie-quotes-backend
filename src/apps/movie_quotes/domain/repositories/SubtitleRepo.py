@@ -58,7 +58,7 @@ class SubtitleRepo:
     # **find_by_quote_ordered_by_movie**  - нахождение субтитров по цитате и сортировка по фильмам
     def find_by_quote_ordered_by_movie(self, quote: str) -> List[Subtitle]:
         subtitles_orm = SubtitleORM.objects.filter(quote__icontains=quote)
-        subtitles_orm.order_by('movie')
+        subtitles_orm = subtitles_orm.order_by('movie')
 
         subtitles = []
 
